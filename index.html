@@ -1,96 +1,856 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script defer src="/_vercel/insights/script.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
-    />
-    <title>Vercel HTML Starter</title>
-    <meta
-      name="description"
-      content="High-performance HTML based website template."
-    />
-  </head>
-  <body>
-    <h1>Vercel HTML Starter</h1>
-    <p>
-      This template is a simple, but powerful single
-      <code>index.html</code> file deployed to
-      <a href="https://vercel.com">Vercel</a>. When your site is deployed, all
-      static assets (like HTML, JavaScript, CSS, images, and more) are deployed
-      globally to every
-      <a href="https://vercel.com/docs/concepts/edge-network/overview"
-        >Vercel Edge Network</a
-      >
-      region.
-    </p>
-    <h2>Simple, privacy-friendly analytics</h2>
-    <p>
-      Want to understand your visitor traffic? Vercel Analytics gives you
-      first-party, privacy-friendly traffic analytics for your HTML site. This
-      template is already configured using the following script:
-    </p>
-    <pre><code>&lt;script defer src="/_vercel/insights/script.js"&gt;&lt;/script&gt;</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/analytics">Vercel Analytics</a>.
-    </p>
-    <h2>Integrated with git</h2>
-    <p>
-      Deploying updates to your site is as simple as
-      <code>git push</code> thanks to Vercel's advanced
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-      Support for GitHub, GitLab, Bitbucket is zero-configuration, and with the
-      flexible Vercel CLI and API, you can integrate with any tool possible.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-    </p>
-    <h2>Fast <code>gzip</code> compression</h2>
-    <p>
-      To help ensure the smallest possible file sizes for your static assets,
-      the Vercel Edge Network compresses files by default using
-      <code>gzip</code>. You can also optionally use
-      <code>brotli</code> compressesion if you prefer.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/edge-network/compression"
-        >compression</a
-      >.
-    </p>
-    <h2>Advanced routing configuration</h2>
-    <p>
-      Vercel gives you a variety of ways to configure the routing of your
-      website. For example, adding redirects, rewrites, or headers to your page.
-      While you can use <code>vercel.json</code> to define these through JSON,
-      you can also express your routing configuration as code using
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-    <p>
-      Middleware runs before the
-      <a href="https://vercel.com/docs/concepts/edge-network/caching"
-        >Vercel Edge Network Cache</a
-      >, so you can configure routing exactly as your application needs. For
-      example, this template uses <code>middleware.js</code> defined in the root
-      of the repository to add additional security headers to the site:
-    </p>
-    <pre><code>referrer-policy: origin-when-cross-origin
-strict-transport-security: max-age=31536000; includeSubDomains; preload
-x-content-type-options: nosniff
-x-dns-prefetch-control: on
-x-frame-options: DENY</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarSelect - Find Your Rooftop Solar Installer</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Load Lucide icons -->
+    <script src="https://unpkg.com/lucide-react@0.363.0/dist/umd/lucide.min.js"></script>
+
+    <style>
+        /* Custom styles */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Simple star rating display */
+        .stars {
+            display: flex;
+            color: #f59e0b; /* Tailwind 'amber-500' */
+        }
+        .star-filled::before {
+            content: '★';
+        }
+        .star-empty::before {
+            content: '☆';
+            color: #d1d5db; /* Tailwind 'gray-300' */
+        }
+        /* Custom loading spinner */
+        .loader {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #3b82f6; /* Blue */
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2 text-2xl font-bold text-blue-600">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-yellow-500"><path d="M12 4L12 2M12 22L12 20M4 12L2 12M22 12L20 12M19.0711 4.92893L20.4853 3.51472M3.51472 20.4853L4.92893 19.0711M19.0711 19.0711L20.4853 20.4853M3.51472 3.51472L4.92893 4.92893M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>SolarSelect</span>
+            </a>
+            <div class="flex items-center space-x-4">
+                <a href="#calculator" class="text-gray-600 hover:text-blue-600">Solar Calculator</a>
+                <a href="#itc-calculator" class="text-gray-600 hover:text-blue-600">Tax Credit</a>
+                <a href="#installers" class="text-gray-600 hover:text-blue-600">Find Installers</a>
+                <a href="#calculator" class="bg-yellow-500 text-white px-4 py-2 rounded-full font-medium hover:bg-yellow-600 transition-colors">
+                    Get Started
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- New Hero/Calculator Section -->
+        <section id="calculator" class="scroll-mt-20 py-12">
+            <div class="bg-gradient-to-r from-blue-600 to-blue-800 p-6 md:p-10 rounded-2xl shadow-xl border border-blue-700">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
+                    
+                    <!-- Left Side: Inputs -->
+                    <div>
+                        <h1 class="text-4xl font-bold text-white mb-2">Get Your Instant Solar Estimate</h1>
+                        <p class="text-blue-100 text-lg mb-6">Size your system & see potential savings.</p>
+                        
+                        <form id="solar-form" class="space-y-6">
+                            <div>
+                                <label for="bill" class="block text-sm font-medium text-blue-100 mb-1">
+                                    Average monthly electricity bill
+                                </label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">$</span>
+                                    <input type="number" id="bill" name="bill" class="w-full pl-7 pr-12 py-3 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 150" min="10" required>
+                                    <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500">/ month</span>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="address" class="block text-sm font-medium text-blue-100 mb-1">
+                                    Your home address
+                                </label>
+                                <input type="text" id="address" name="address" class="w-full py-3 px-4 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="123 Main St, Anytown, USA" required>
+                                <p class="text-xs text-blue-200 mt-1">Used to analyze your roof's solar potential with Google&trade; data.</p>
+                            </div>
+                            
+                            <button type="submit" id="calculate-btn" class="w-full bg-yellow-500 text-gray-900 py-3 px-6 rounded-lg font-bold text-lg hover:bg-yellow-400 transition-colors flex items-center justify-center space-x-2">
+                                <i data-lucide="sun"></i>
+                                <span>Calculate My Needs</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Right Side: Results -->
+                    <div id="calculator-results" class="bg-white/10 p-6 md:p-8 rounded-xl border border-blue-500 flex items-center justify-center text-white">
+                        <div id="results-placeholder" class="text-center text-blue-200">
+                            <i data-lucide="bar-chart-2" class="w-16 h-16 mx-auto mb-4 text-blue-300"></i>
+                            <p class="text-lg font-medium">Your results will appear here.</p>
+                            <p class="text-sm">Fill out the form to get started.</p>
+                        </div>
+                        <div id="results-loading" class="text-center text-white hidden">
+                            <div class="loader mx-auto mb-4 border-t-white border-blue-200"></div>
+                            <p class="text-lg font-medium">Analyzing your roof...</p>
+                            <p class="text-sm">Fetching solar data for your address.</p>
+                        </div>
+                        <div id="results-content" class="hidden w-full">
+                            <h3 class="text-2xl font-bold text-white mb-4">Your Solar Estimate</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center bg-white/20 backdrop-blur-sm p-4 rounded-lg">
+                                    <span class="text-blue-100 font-medium">Recommended System Size:</span>
+                                    <span id="system-size" class="text-xl font-bold text-white"></span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white/20 backdrop-blur-sm p-4 rounded-lg">
+                                    <span class="text-blue-100 font-medium">Est. Monthly Production:</span>
+                                    <span id="monthly-production" class="text-xl font-bold text-white"></span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white/20 backdrop-blur-sm p-4 rounded-lg">
+                                    <span class="text-blue-100 font-medium">Available Roof Space:</span>
+                                    <span id="roof-space" class="text-xl font-bold text-white"></span>
+                                </div>
+                                <div class="bg-green-100 border-l-4 border-green-500 p-4 rounded-lg mt-4">
+                                    <p class="font-bold text-green-800">Est. 25-Year Savings:</p>
+                                    <p id="lifetime-savings" class="text-3xl font-bold text-green-700"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="results-error" class="text-center text-yellow-300 hidden">
+                            <i data-lucide="alert-triangle" class="w-16 h-16 mx-auto mb-4 text-yellow-400"></i>
+                            <p class="text-lg font-medium">Could not fetch data.</p>
+                            <p class="text-sm">Please check the address and try again. This is a demo; real API calls are simulated.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Federal Tax Credit Calculator Section -->
+        <section id="itc-calculator" class="scroll-mt-20 py-12 bg-white rounded-2xl shadow-xl border border-gray-100 mb-12">
+            <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center text-gray-900 mb-4">Federal Tax Credit Estimator (ITC)</h2>
+                <p class="text-center text-gray-600 mb-8">Quickly calculate your potential **30% federal tax credit**.</p>
+
+                <div class="space-y-6">
+                    <div>
+                        <label for="system-cost" class="block text-sm font-medium text-gray-700 mb-1">Total System Cost (before incentives)</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">$</span>
+                            <input type="number" id="system-cost" class="w-full pl-7 pr-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500" placeholder="e.g., 25000" min="1000" required>
+                        </div>
+                    </div>
+                    
+                    <button id="calculate-itc-btn" class="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-bold text-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2">
+                        <i data-lucide="calculator"></i>
+                        <span>Calculate 30% Credit</span>
+                    </button>
+                    
+                    <div id="itc-result" class="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg hidden">
+                        <p class="font-bold text-green-800">Estimated Federal Tax Credit:</p>
+                        <p id="credit-amount" class="text-3xl font-bold text-green-700 mt-1">$0</p>
+                        <p class="text-xs text-green-600 mt-2">This is a credit that reduces your tax liability. Consult a tax professional for exact eligibility.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Proof Section -->
+        <section class="py-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                    <h4 class="text-3xl font-bold text-blue-600">500+</h4>
+                    <p class="text-gray-500">Top Installers</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                    <h4 class="text-3xl font-bold text-blue-600">10,000+</h4>
+                    <p class="text-gray-500">Homes Sized</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                    <h4 class="text-3xl font-bold text-blue-600">4.8/5</h4>
+                    <p class="text-gray-500">Avg. Rating</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                    <h4 class="text-3xl font-bold text-blue-600">$15,000</h4>
+                    <p class="text-gray-500">Avg. Lifetime Savings</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Installer Listings Section -->
+        <section id="installers" class="scroll-mt-20 py-12">
+            <h2 class="text-3xl font-bold text-center mb-8">Compare Top Solar Installers</h2>
+
+            <!-- Filters -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg mb-8 border border-gray-100">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Sort By -->
+                    <div>
+                        <label for="sort-by" class="block text-sm font-medium text-gray-700">Sort By</label>
+                        <select id="sort-by" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <option value="rating">Best Rating</option>
+                            <option value="price_asc">Price (Low to High)</option>
+                            <option value="price_desc">Price (High to Low)</option>
+                            <option value="reviews">Most Reviews</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Filter by Price -->
+                    <div>
+                        <label for="price-range" class="block text-sm font-medium text-gray-700">Price per Watt ($)</label>
+                        <div class="flex items-center space-x-2 mt-1">
+                            <input type="number" id="price-min" class="w-1/2 py-2 px-3 border border-gray-300 rounded-lg shadow-sm" value="1.0" step="0.1" min="1.0">
+                            <span class="text-gray-500">-</span>
+                            <input type="number" id="price-max" class="w-1/2 py-2 px-3 border border-gray-300 rounded-lg shadow-sm" value="5.0" step="0.1" max="5.0">
+                        </div>
+                    </div>
+
+                    <!-- Filter by Rating -->
+                    <div>
+                        <label for="min-rating" class="block text-sm font-medium text-gray-700">Minimum Rating</label>
+                        <select id="min-rating" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <option value="1" selected>1 Star & Up</option>
+                            <option value="2">2 Stars & Up</option>
+                            <option value="3">3 Stars & Up</option>
+                            <option value="4">4 Stars & Up</option>
+                            <option value="5">5 Stars Only</option>
+                        </select>
+                    </div>
+
+                    <!-- Filter by Service Area -->
+                    <div>
+                        <label for="service-area" class="block text-sm font-medium text-gray-700">Service Area (ZIP)</label>
+                        <input type="text" id="service-area" class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Enter your ZIP code">
+                    </div>
+                </div>
+                <button id="apply-filters" class="mt-6 w-full md:w-auto bg-blue-600 text-white py-2 px-8 rounded-lg font-medium hover:bg-blue-700 transition-colors">Apply Filters</button>
+            </div>
+
+            <!-- New Installer Comparison Table -->
+            <div class="bg-white shadow-lg rounded-2xl border border-gray-100 overflow-hidden">
+                <table class="w-full" id="installer-table">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="p-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Installer</th>
+                            <th class="p-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Rating</th>
+                            <th class="p-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Avg. Price / Watt</th>
+                            <th class="p-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Key Packages</th>
+                            <th class="p-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="installer-list-tbody" class="divide-y divide-gray-200">
+                        <!-- Installer rows will be dynamically inserted here -->
+                    </tbody>
+                </table>
+                <!-- No Results Section with Lead Capture CTA -->
+                <div id="no-results" class="text-center p-12 text-gray-500 hidden">
+                    <i data-lucide="search-x" class="w-16 h-16 mx-auto mb-4 text-gray-400"></i>
+                    <p class="text-xl font-medium">No installers currently match your criteria.</p>
+                    <p id="no-results-message" class="mt-2 text-gray-600 font-medium">
+                        We will work with our network of **reliable installers** who have delivered great workmanship in your area to get you quotes.
+                    </p>
+                    <button id="get-generic-quote" class="mt-6 bg-blue-600 text-white py-3 px-8 rounded-lg font-bold text-lg hover:bg-blue-700 transition-colors">
+                        Get Quotes from Our Network
+                    </button>
+                    <p class="text-sm mt-4">Try adjusting your filters, or click the button above to proceed.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solar 101 Q&A Section -->
+        <section id="faq" class="py-16">
+            <h2 class="text-3xl font-bold text-center mb-8">Solar 101: Quick Q&A</h2>
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-lg border border-gray-100 space-y-6">
+                <div>
+                    <h3 class="font-semibold text-lg text-blue-600">How does rooftop solar work?</h3>
+                    <p class="text-gray-600 mt-1">Solar panels on your roof capture sunlight and convert it into DC (direct current) electricity. An inverter then converts this DC electricity into AC (alternating current) electricity, which is what your home uses.</p>
+                </div>
+                <div class="border-t border-gray-200 pt-4">
+                    <h3 class="font-semibold text-lg text-blue-600">What is the Federal Solar Tax Credit (ITC)?</h3>
+                    <p class="text-gray-600 mt-1">The Investment Tax Credit (ITC), often called the federal solar tax credit, allows you to deduct a percentage of the cost of installing a solar energy system from your federal taxes. Currently, this credit is set at **30%** of the system cost for systems installed through 2032. This is a dollar-for-dollar reduction in the income taxes you owe, making solar significantly more affordable.</p>
+                </div>
+                <div class="border-t border-gray-200 pt-4">
+                    <h3 class="font-semibold text-lg text-blue-600">What is "net metering"?</h3>
+                    <p class="text-gray-600 mt-1">Net metering is a billing mechanism. When your solar panels produce more electricity than you're using, the excess power is sent to the grid, and your utility company gives you credits. You can use these credits at night or on cloudy days when your panels aren't producing.</p>
+                </div>
+                <div class="border-t border-gray-200 pt-4">
+                    <h3 class="font-semibold text-lg text-blue-600">How long do solar panels last?</h3>
+                    <p class="text-gray-600 mt-1">Most high-quality solar panels are warrantied for 25 years and can continue producing electricity efficiently for 30 years or more.</p>
+                </div>
+                <div class="border-t border-gray-200 pt-4">
+                    <h3 class="font-semibold text-lg text-blue-600">Does solar work on cloudy days?</h3>
+                    <p class="text-gray-600 mt-1">Yes, solar panels can still produce electricity on cloudy or rainy days, just not as much as on a clear, sunny day. Your home will automatically draw any extra power it needs from the grid.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <a href="#" class="flex items-center space-x-2 text-2xl font-bold text-white mb-2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-yellow-500"><path d="M12 4L12 2M12 22L12 20M4 12L2 12M22 12L20 12M19.0711 4.92893L20.4853 3.51472M3.51472 20.4853L4.92893 19.0711M19.0711 19.0711L20.4853 20.4853M3.51472 3.51472L4.92893 4.92893M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span>SolarSelect</span>
+                    </a>
+                    <p class="text-sm text-gray-400">Your partner in solar energy.</p>
+                </div>
+                <div>
+                    <h5 class="font-semibold text-white mb-4">Quick Links</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#calculator" class="hover:text-yellow-500">Solar Calculator</a></li>
+                        <li><a href="#itc-calculator" class="hover:text-yellow-500">Tax Credit Estimator</a></li>
+                        <li><a href="#installers" class="hover:text-yellow-500">Find Installers</a></li>
+                        <li><a href="#faq" class="hover:text-yellow-500">Solar 101</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-semibold text-white mb-4">Resources</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-yellow-500">Financing Guide</a></li>
+                        <li><a href="#" class="hover:text-yellow-500">FAQs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-semibold text-white mb-4">Legal</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-yellow-500">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-yellow-500">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
+                &copy; <span id="footer-year"></span> SolarSelect. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lead Capture Modal -->
+    <div id="quote-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md m-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="modal-title" class="text-2xl font-bold text-gray-900">Get a Quote</h3>
+                <button id="close-modal" class="text-gray-400 hover:text-gray-600">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <!-- Quote Form Content -->
+            <div id="quote-form-content">
+                <p class="text-gray-600 mb-6">Please provide your details to request a quote. We'll pre-fill an email for you to send.</p>
+                <form id="quote-form" class="space-y-4">
+                    <input type="hidden" id="modal-installer-name" value="">
+                    <div>
+                        <label for="modal-name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                        <input type="text" id="modal-name" class="mt-1 w-full py-2 px-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                    </div>
+                    <div>
+                        <label for="modal-email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="modal-email" class="mt-1 w-full py-2 px-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                    </div>
+                    <div>
+                        <label for="modal-phone" class="block text-sm font-medium text-gray-700">Phone</label>
+                        <input type="tel" id="modal-phone" class="mt-1 w-full py-2 px-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-bold text-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2">
+                        <span>Submit Request</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Quote Success Content -->
+            <div id="quote-success-content" class="text-center p-4 hidden">
+                <i data-lucide="check-circle" class="w-16 h-16 mx-auto mb-4 text-green-500"></i>
+                <h4 class="text-2xl font-bold text-gray-900 mb-2">Request Submitted!</h4>
+                <p class="text-gray-700 mb-6">
+                    Your quote request has been submitted, and we will be in touch with you soon!
+                </p>
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <p class="font-medium text-blue-700 mb-2">In the meantime, if you have any questions:</p>
+                    <p class="text-sm text-gray-800">Email: <a href="mailto:neeraj.ora@gmail.com" class="text-blue-600 hover:text-blue-800 font-semibold">neeraj.ora@gmail.com</a></p>
+                    <p class="text-sm text-gray-800">Phone: <a href="tel:7086072070" class="text-blue-600 hover:text-blue-800 font-semibold">708.607.2070</a></p>
+                </div>
+                <button id="close-success-modal" class="mt-6 w-full bg-green-600 text-white py-3 px-6 rounded-lg font-bold text-lg hover:bg-green-700 transition-colors">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Lucide Icons ---
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            // --- Footer Year ---
+            document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+            // --- Mock Installer Data ---
+            const mockInstallers = [
+                {
+                    id: 1,
+                    name: "BrightFuture Solar",
+                    logo: "https://placehold.co/100x50/3b82f6/white?text=BrightFuture",
+                    rating: 4.8,
+                    reviews: 182,
+                    pricePerWatt: 2.75, // average
+                    priceRange: [2.60, 2.90],
+                    packages: {
+                        panels: "REC Alpha Pure 410W",
+                        inverter: "Enphase IQ8M",
+                        warranty: "25-Yr Product & Labor",
+                        battery: "Enphase IQ Battery (Optional)"
+                    },
+                    serviceZips: ["90001", "90210", "90012", "91101"]
+                },
+                {
+                    id: 2,
+                    name: "EcoVolt Energy",
+                    logo: "https://placehold.co/100x50/10b981/white?text=EcoVolt",
+                    rating: 4.5,
+                    reviews: 230,
+                    pricePerWatt: 2.60,
+                    priceRange: [2.50, 2.70],
+                    packages: {
+                        panels: "Qcells DUO G10 395W",
+                        inverter: "SolarEdge SE7600H",
+                        warranty: "25-Yr Panel, 12-Yr Inverter",
+                        battery: "Not Included"
+                    },
+                    serviceZips: ["90001", "90015", "90210", "90211"]
+                },
+                {
+                    id: 3,
+                    name: "SunPower Direct",
+                    logo: "https://placehold.co/100x50/f59e0b/white?text=SunPower",
+                    rating: 4.9,
+                    reviews: 310,
+                    pricePerWatt: 3.20,
+                    priceRange: [3.00, 3.40],
+                    packages: {
+                        panels: "SunPower M-Series 440W",
+                        inverter: "SunPower Equinox (Integrated)",
+                        warranty: "25-Yr Complete System",
+                        battery: "SunPower SunVault (Optional)"
+                    },
+                    serviceZips: ["90210", "91101", "90012"]
+                },
+                {
+                    id: 4,
+                    name: "Affordable Solar CA",
+                    logo: "https://placehold.co/100x50/84cc16/white?text=Affordable",
+                    rating: 4.2,
+                    reviews: 95,
+                    pricePerWatt: 2.40,
+                    priceRange: [2.30, 2.50],
+                    packages: {
+                        panels: "Trina Vertex S 405W",
+                        inverter: "SMA Sunny Boy 7.7",
+                        warranty: "25-Yr Panel, 10-Yr Inverter",
+                        battery: "Not Included"
+                    },
+                    serviceZips: ["90001", "90015", "91101"]
+                },
+                {
+                    id: 5,
+                    name: "Tesla Energy",
+                    logo: "https://placehold.co/100x50/ef4444/white?text=Tesla",
+                    rating: 3.9,
+                    reviews: 450,
+                    pricePerWatt: 2.90,
+                    priceRange: [2.80, 3.10],
+                    packages: {
+                        panels: "Tesla T420B (or Solar Roof)",
+                        inverter: "Tesla Solar Inverter",
+                        warranty: "25-Yr Panel, 12.5-Yr Inverter",
+                        battery: "Tesla Powerwall 2 (Included)"
+                    },
+                    serviceZips: ["90001", "90210", "90012", "91101"]
+                },
+                {
+                    id: 6,
+                    name: "PureLight Solar",
+                    logo: "https://placehold.co/100x50/6366f1/white?text=PureLight",
+                    rating: 4.7,
+                    reviews: 112,
+                    pricePerWatt: 2.85,
+                    priceRange: [2.70, 3.00],
+                    packages: {
+                        panels: "Panasonic EVERVOLT 400W",
+                        inverter: "Enphase IQ8+",
+                        warranty: "25-Yr AllGuard (Parts & Labor)",
+                        battery: "Generac PWRcell (Optional)"
+                    },
+                    serviceZips: ["90211", "91101", "90015"]
+                }
+            ];
+
+            // --- UI Elements ---
+            const installerListBody = document.getElementById('installer-list-tbody');
+            const noResults = document.getElementById('no-results');
+            const applyFiltersBtn = document.getElementById('apply-filters');
+            
+            const sortByEl = document.getElementById('sort-by');
+            const priceMinEl = document.getElementById('price-min');
+            const priceMaxEl = document.getElementById('price-max');
+            const minRatingEl = document.getElementById('min-rating');
+            const serviceAreaEl = document.getElementById('service-area');
+            
+            // New element for no results CTA
+            const getGenericQuoteBtn = document.getElementById('get-generic-quote');
+
+            // --- Modal UI Elements ---
+            const quoteModal = document.getElementById('quote-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            const quoteForm = document.getElementById('quote-form');
+            const modalTitle = document.getElementById('modal-title');
+            const modalInstallerName = document.getElementById('modal-installer-name');
+            const quoteFormContent = document.getElementById('quote-form-content');
+            const quoteSuccessContent = document.getElementById('quote-success-content');
+            const closeSuccessModalBtn = document.getElementById('close-success-modal');
+
+            // --- Installer Rendering ---
+            
+            /**
+             * Generates HTML for star rating
+             * @param {number} rating - The rating value (e.g., 4.5)
+             * @returns {string} HTML string for stars
+             */
+            function renderStars(rating) {
+                let stars = '';
+                // Use Math.round to get the closest full star count for display
+                const filledCount = Math.round(rating); 
+                for (let i = 1; i <= 5; i++) {
+                    if (i <= filledCount) {
+                        stars += '<span class="star-filled"></span>';
+                    } else {
+                        stars += '<span class="star-empty"></span>';
+                    }
+                }
+                return `<div class="stars" aria-label="Rating: ${rating.toFixed(1)} out of 5">${stars}</div>`;
+            }
+
+            /**
+             * Renders a list of installer table rows to the DOM
+             * @param {Array<object>} installers - Array of installer objects
+             */
+            function renderInstallers(installers) {
+                const noResultsMessage = document.getElementById('no-results-message');
+
+                if (installers.length === 0) {
+                    installerListBody.innerHTML = '';
+                    noResults.classList.remove('hidden');
+                    // Ensure the correct message is displayed
+                    noResultsMessage.innerHTML = 'We will work with our network of **reliable installers** who have delivered great workmanship in your area to get you quotes.';
+                    return;
+                }
+
+                noResults.classList.add('hidden');
+                installerListBody.innerHTML = installers.map(installer => `
+                    <tr class="hover:bg-gray-50">
+                        <td class="p-4 align-top">
+                            <div class="flex items-center space-x-3">
+                                <img src="${installer.logo}" alt="${installer.name} logo" class="h-10 w-20 object-contain rounded border border-gray-200" onerror="this.src='https://placehold.co/100x50/gray/white?text=Logo'">
+                                <div>
+                                    <div class="font-semibold text-gray-900">${installer.name}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="p-4 align-top">
+                            <div class="flex items-center">
+                                <span class="font-bold text-gray-800 mr-2">${installer.rating.toFixed(1)}</span>
+                                ${renderStars(installer.rating)}
+                            </div>
+                            <span class="text-sm text-gray-500">(${installer.reviews} reviews)</span>
+                        </td>
+                        <td class="p-4 align-top">
+                            <div class="text-lg font-bold text-blue-600">$${installer.pricePerWatt.toFixed(2)}</div>
+                            <div class="text-sm text-gray-500">/ watt</div>
+                        </td>
+                        <td class="p-4 align-top">
+                            <ul class="text-xs text-gray-600 space-y-1 max-w-xs">
+                                <li><span class="font-semibold text-gray-800">Panels:</span> ${installer.packages.panels}</li>
+                                <li><span class="font-semibold text-gray-800">Inverter:</span> ${installer.packages.inverter}</li>
+                                <li><span class="font-semibold text-gray-800">Warranty:</span> ${installer.packages.warranty}</li>
+                                ${installer.packages.battery ? 
+                                `<li><span class="font-semibold text-gray-800">Battery:</span> ${installer.packages.battery}</li>` : ''}
+                            </ul>
+                        </td>
+                        <td class="p-4 align-top text-right">
+                            <button class="bg-yellow-500 text-gray-900 py-2 px-4 rounded-lg font-bold text-sm hover:bg-yellow-400 transition-colors get-quote-btn" data-installer-name="${installer.name}">
+                                Get a Quote
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // --- Filter and Sort Logic ---
+            function applyFiltersAndSort() {
+                // Get filter values
+                const sortBy = sortByEl.value;
+                const minPrice = parseFloat(priceMinEl.value);
+                const maxPrice = parseFloat(priceMaxEl.value);
+                const minRating = parseFloat(minRatingEl.value);
+                const zip = serviceAreaEl.value.trim();
+
+                // 1. Filter
+                let filtered = mockInstallers.filter(installer => {
+                    const priceMatch = installer.pricePerWatt >= minPrice && installer.pricePerWatt <= maxPrice;
+                    const ratingMatch = installer.rating >= minRating;
+                    // Only filter by ZIP if a ZIP code is actually entered
+                    const zipMatch = !zip || installer.serviceZips.includes(zip);
+                    
+                    return priceMatch && ratingMatch && zipMatch;
+                });
+
+                // 2. Sort
+                switch (sortBy) {
+                    case 'rating':
+                        filtered.sort((a, b) => b.rating - a.rating);
+                        break;
+                    case 'price_asc':
+                        filtered.sort((a, b) => a.pricePerWatt - b.pricePerWatt);
+                        break;
+                    case 'price_desc':
+                        filtered.sort((a, b) => b.pricePerWatt - a.pricePerWatt);
+                        break;
+                    case 'reviews':
+                        filtered.sort((a, b) => b.reviews - a.reviews);
+                        break;
+                }
+                
+                // 3. Render
+                renderInstallers(filtered);
+            }
+
+            // --- Solar Calculator Logic (unchanged) ---
+            const solarForm = document.getElementById('solar-form');
+            const resultsPlaceholder = document.getElementById('results-placeholder');
+            const resultsLoading = document.getElementById('results-loading');
+            const resultsContent = document.getElementById('results-content');
+            const resultsError = document.getElementById('results-error');
+
+            const systemSizeEl = document.getElementById('system-size');
+            const monthlyProductionEl = document.getElementById('monthly-production');
+            const roofSpaceEl = document.getElementById('roof-space');
+            const lifetimeSavingsEl = document.getElementById('lifetime-savings');
+
+            solarForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                handleSolarCalculation();
+            });
+
+            async function handleSolarCalculation() {
+                const bill = parseFloat(document.getElementById('bill').value);
+                const address = document.getElementById('address').value;
+
+                if (isNaN(bill) || !address) {
+                    // Simple custom message instead of alert()
+                    resultsPlaceholder.classList.add('hidden');
+                    resultsContent.classList.add('hidden');
+                    resultsLoading.classList.add('hidden');
+                    resultsError.classList.remove('hidden');
+                    resultsError.querySelector('p.text-lg').textContent = "Form incomplete.";
+                    resultsError.querySelector('p.text-sm').textContent = "Please fill out both fields to calculate your estimate.";
+                    return;
+                }
+
+                // Show loading state
+                resultsPlaceholder.classList.add('hidden');
+                resultsError.classList.add('hidden');
+                resultsContent.classList.add('hidden');
+                resultsLoading.classList.remove('hidden');
+
+                try {
+                    // --- SIMULATED API CALL ---
+                    // Simulate a network delay
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    // Mock solar data (simulating a successful API response)
+                    if (address.toLowerCase().includes('fail')) {
+                         throw new Error("Simulated API Error");
+                    }
+
+                    const mockSolarData = {
+                        solarPotential: {
+                            maxArrayAreaMeters2: 80 + Math.random() * 40, // 80-120 m^2
+                            sunshineQuantiles: [
+                                { kwhPerYear: 1200 + Math.random() * 300 }, // A panel in a low-sun area
+                                { kwhPerYear: 1400 + Math.random() * 300 }, // 50th percentile
+                                { kwhPerYear: 1600 + Math.random() * 300 }  // A panel in a high-sun area
+                            ]
+                        }
+                    };
+                    
+                    // --- Calculations ---
+                    const avgKwhPrice = 0.16;
+                    const monthlyKwh = bill / avgKwhPrice;
+                    const annualKwh = monthlyKwh * 12;
+                    const requiredSizeKw = (annualKwh / 365 / 4.5) * 1.2;
+                    const maxRoofSpaceM2 = mockSolarData.solarPotential.maxArrayAreaMeters2;
+                    const maxKwOnRoof = (maxRoofSpaceM2 / 1.65) * 0.4;
+                    const finalSystemSizeKw = Math.min(requiredSizeKw, maxKwOnRoof);
+                    const kwhPerKwPerYear = mockSolarData.solarPotential.sunshineQuantiles[1].kwhPerYear * 1.1;
+                    const estimatedAnnualProduction = finalSystemSizeKw * kwhPerKwPerYear;
+                    const estimatedMonthlyProduction = estimatedAnnualProduction / 12;
+                    const firstYearSavings = estimatedAnnualProduction * avgKwhPrice;
+                    let lifetimeSavings = 0;
+                    for (let i = 0; i < 25; i++) {
+                        lifetimeSavings += firstYearSavings * Math.pow(1.025, i);
+                    }
+
+                    // --- Display Results ---
+                    systemSizeEl.textContent = `${finalSystemSizeKw.toFixed(1)} kW`;
+                    monthlyProductionEl.textContent = `${Math.round(estimatedMonthlyProduction)} kWh`;
+                    roofSpaceEl.textContent = `${Math.round(maxRoofSpaceM2 * 10.764)} sq. ft.`; // m^2 to ft^2
+                    lifetimeSavingsEl.textContent = `$${(Math.round(lifetimeSavings / 1000) * 1000).toLocaleString()}`;
+
+                    resultsLoading.classList.add('hidden');
+                    resultsContent.classList.remove('hidden');
+
+                } catch (error) {
+                    console.error("Error in solar calculation:", error);
+                    resultsLoading.classList.add('hidden');
+                    resultsError.classList.remove('hidden');
+                    resultsError.querySelector('p.text-lg').textContent = "Could not fetch data.";
+                    resultsError.querySelector('p.text-sm').textContent = "Please check the address and try again. This is a demo; real API calls are simulated.";
+                }
+            }
+
+            // --- Federal Tax Credit Calculator Logic ---
+            const systemCostEl = document.getElementById('system-cost');
+            const calculateItcBtn = document.getElementById('calculate-itc-btn');
+            const itcResultEl = document.getElementById('itc-result');
+            const creditAmountEl = document.getElementById('credit-amount');
+
+            calculateItcBtn.addEventListener('click', () => {
+                const cost = parseFloat(systemCostEl.value);
+                
+                if (isNaN(cost) || cost <= 0) {
+                    itcResultEl.classList.add('hidden');
+                    return;
+                }
+                
+                const credit = cost * 0.30;
+                creditAmountEl.textContent = `$${credit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                itcResultEl.classList.remove('hidden');
+                
+                // Re-run lucide icons creation for the calculator section if needed
+                if (window.lucide) {
+                    lucide.createIcons();
+                }
+            });
+
+
+            // --- Modal Logic ---
+
+            function resetModal() {
+                quoteFormContent.classList.remove('hidden');
+                quoteSuccessContent.classList.add('hidden');
+                quoteForm.reset(); 
+            }
+
+            // Open modal for generic network quote button
+            getGenericQuoteBtn.addEventListener('click', () => {
+                resetModal();
+                modalTitle.textContent = `Get Quotes from Our Trusted Network`;
+                modalInstallerName.value = "SolarSelect Network"; // Placeholder value
+                quoteModal.classList.remove('hidden');
+                if (window.lucide) {
+                    lucide.createIcons();
+                }
+            });
+
+            // Open modal for specific installer quote buttons
+            installerListBody.addEventListener('click', (e) => {
+                if (e.target.classList.contains('get-quote-btn') || e.target.closest('.get-quote-btn')) {
+                    const button = e.target.closest('.get-quote-btn');
+                    const installerName = button.dataset.installerName;
+                    
+                    resetModal();
+                    modalTitle.textContent = `Get a Quote from ${installerName}`;
+                    modalInstallerName.value = installerName;
+                    quoteModal.classList.remove('hidden');
+                    if (window.lucide) {
+                        lucide.createIcons();
+                    }
+                }
+            });
+
+            // Close modal functionality
+            function hideModal() {
+                quoteModal.classList.add('hidden');
+                resetModal();
+            }
+
+            closeModalBtn.addEventListener('click', hideModal);
+            closeSuccessModalBtn.addEventListener('click', hideModal); // New button for success close
+
+            quoteModal.addEventListener('click', (e) => {
+                // Close if clicking on the backdrop
+                if (e.target === quoteModal) {
+                    hideModal();
+                }
+            });
+
+            // Handle Form Submission: Show success state instead of mailto: redirect
+            quoteForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Simulate lead capture/submission (in a real app, this would be an API call)
+                const name = document.getElementById('modal-name').value;
+                const email = document.getElementById('modal-email').value;
+                const phone = document.getElementById('modal-phone').value;
+                const installerName = modalInstallerName.value;
+
+                console.log(`Simulated Lead Submission for: ${installerName}`);
+                console.log(`Details: ${name}, ${email}, ${phone}`);
+
+                // Hide form and show success message
+                quoteFormContent.classList.add('hidden');
+                quoteSuccessContent.classList.remove('hidden');
+                
+                if (window.lucide) {
+                    lucide.createIcons();
+                }
+            });
+
+
+            // --- Initial Load ---
+            applyFiltersBtn.addEventListener('click', applyFiltersAndSort);
+            
+            // Initial render of installers on page load
+            applyFiltersAndSort();
+        });
+    </script>
+</body>
 </html>
