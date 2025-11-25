@@ -1,0 +1,87 @@
+[
+  {
+    "question": "What is the maximum subsidy available under the PM Surya Ghar Muft Bijli Yojana?",
+    "answer": "The maximum subsidy available is **₹78,000** for a 3 kW system. The subsidy structure is: ₹30,000 per kW for the first 2 kW, and ₹18,000 per kW for the additional 1 kW.",
+    "keywords": "subsidy maximum cap amount finance"
+  },
+  {
+    "question": "What is the official step-by-step process for availing the PM Surya Ghar subsidy?",
+    "answer": "The official process involves four main steps: 1. **Registration:** Register on the national portal with your State, DISCOM, and Consumer Account Number. 2. **Application & Approval:** Submit your application with required documents and receive Technical Feasibility (TFA) approval from the DISCOM. 3. **Installation & Net Metering:** Get the solar plant installed by a registered vendor and apply for net metering. 4. **Inspection & Subsidy:** After DISCOM inspection, the commissioning report is generated, and the approved subsidy amount is released directly to your bank account.",
+    "keywords": "process steps apply registration discom application approval inspection net metering"
+  },
+  {
+    "question": "What are the eligibility criteria for the residential solar scheme?",
+    "answer": "To be eligible, the consumer must have a valid electricity connection for a residential dwelling. The installation must be located on the roof of the dwelling house. The system size should ideally match the consumer's average electricity consumption and is subsidized up to 3 kW.",
+    "keywords": "eligibility criteria who can apply residential dwelling connection"
+  },
+  {
+    "question": "What is the estimated cost of a residential solar system per kW in India?",
+    "answer": "The typical total cost of installing a residential solar panel system in India ranges from **₹50,000 to ₹75,000 per kW** (before deducting the government subsidy). The final cost depends on various technical choices.",
+    "keywords": "cost price per kw installation expenses estimate"
+  },
+  {
+    "question": "How much roof area is required for solar panel installation?",
+    "answer": "Generally, a 1 kW system requires approximately **100 square feet (sq. ft.)** of shadow-free, usable rooftop area. Therefore, a standard 3 kW system would require around 300 sq. ft. You need an unshaded, south-facing (in India) area for best results.",
+    "keywords": "area roof space required size sq ft"
+  },
+  {
+    "question": "What factors influence the total installation cost of a solar system?",
+    "answer": "Key factors include the total system size, the type of solar panels used (e.g., Mono PERC vs. Half-cut panels), the inverter technology (string inverter vs. micro-inverters), and the type of mounting structure (e.g., elevated structures for better shadow clearance).",
+    "keywords": "factors cost change technical components inverter panels"
+  },
+  {
+    "question": "What is the expected service life and required maintenance for a solar system?",
+    "answer": "Solar systems are highly durable and have a service life of **25 years or more**. Maintenance is minimal, primarily involving regular cleaning of the solar panels and occasional checks on the inverter and wiring connections. This low maintenance makes solar a great long-term investment.",
+    "keywords": "life maintenance durability cleaning warranty"
+  },
+  {
+    "question": "Are low-interest loans available for solar installation under the scheme?",
+    "answer": "Yes, the PM Surya Ghar scheme promotes the availability of **concessional low-interest loans** through major Public Sector Undertaking (PSU) banks to help beneficiaries cover the net investment cost after the subsidy.",
+    "keywords": "loan emi bank finance psu interest"
+  },
+  {
+    "question": "What is the timeline for site verification and technical feasibility approval?",
+    "answer": "Typically, the DISCOM is required to complete site verification and technical feasibility analysis within **15 days** of the application acknowledgment. Following this, a Letter of Approval (LOA) or termination is issued.",
+    "keywords": "timeline how long verification feasibility approval LOA time"
+  },
+  {
+    "question": "Who is responsible for the meter installation and system commissioning?",
+    "answer": "The **DISCOM** is generally responsible for the inspection and installation of the net meter. This usually occurs within 15-20 days after the Chief Electrical Inspector to Government (CEIG) approval (if applicable) or work completion report submission.",
+    "keywords": "meter installation commissioning responsible discom who"
+  },
+  {
+    "question": "What is the difference between Net Metering and Net Billing?",
+    "answer": "Under **Net Metering**, surplus power generated is exported to the grid and adjusted (set-off) against your electricity consumption in units. Under **Net Billing**, the utility purchases the gross energy generated by your system at a fixed tariff and sells power to you at the regular retail rate; settlement is done in monetary terms (credit on bill) rather than units.",
+    "keywords": "net metering net billing difference comparison mechanism"
+  },
+  {
+    "question": "Can I install solar if I live in a multi-tenant building or apartment?",
+    "answer": "Yes, emerging models such as **Community Shared Solar** and **Virtual Net Metering** allow consumers in multi-tenant buildings with limited roof space to participate. In these models, generation credits can be shared among multiple consumers.",
+    "keywords": "apartment flat multi-tenant community shared virtual net metering"
+  },
+  {
+    "question": "Are there property tax rebates available for installing rooftop solar?",
+    "answer": "Yes, many **Urban Local Bodies (ULBs)** and municipal corporations offer incentives such as property tax rebates or municipal loan programs to encourage solar adoption. You should check with your local municipality for specific active schemes in your city.",
+    "keywords": "tax rebate property tax municipal benefit incentive"
+  },
+  {
+    "question": "How often should I clean my solar panels?",
+    "answer": "Solar panels should be cleaned regularly to maintain efficiency, typically **every 15 days** depending on local dust levels. Cleaning should be done using plain water and a soft sponge or cloth. Avoid using abrasive detergents or metal brushes.",
+    "keywords": "cleaning maintenance wash how often dust"
+  },
+  {
+    "question": "What is the best time of day to clean solar panels?",
+    "answer": "The best time to clean modules is **early morning (before 11:00 AM) or late evening (after 5:00 PM)** when the panels are cool. Cleaning hot panels during the day can cause thermal shock and cracks.",
+    "keywords": "time cleaning morning evening cool thermal shock"
+  },
+  {
+    "question": "What kind of warranty comes with solar modules?",
+    "answer": "Solar modules typically come with a **Product Warranty** (usually 10 years for workmanship) and a **Performance Warranty** (typically guaranteeing 90% output for the first 10 years and 80% output for the next 15 years, totaling 25 years).",
+    "keywords": "warranty guarantee years module performance life"
+  },
+  {
+    "question": "What happens if the grid power fails?",
+    "answer": "For standard grid-tied systems (without batteries), the inverter will automatically shut down during a power cut. This is a safety feature called **Anti-Islanding** to protect utility workers fixing the lines. If you need power during outages, a Hybrid system with battery backup is required.",
+    "keywords": "power cut outage grid failure safety anti-islanding battery hybrid"
+  }
+]
