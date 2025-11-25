@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solarastra India | Powering Every Indian Roof</title>
+    <meta name="description" content="Switch to solar with Solarastra. Avail PM Surya Ghar subsidy, reduce electricity bills to zero, and get expert installation across India.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        solar: {
+                            50: '#FFFDE7',
+                            100: '#FFF9C4',
+                            400: '#FBC02D',
+                            500: '#FFC107',
+                            600: '#FFA000',
+                            700: '#FF8F00',
+                            800: '#FF6F00',
+                        },
+                        primary: '#1E40AF', // Blue for contrast
+                        accent: '#FFC107', // Solar yellow
+                        bg: '#F3F4F6', // Light gray background
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Global Constants for Firebase/API Integration -->
+    <script>
+        // Placeholder for API Key. This will be automatically handled by the environment.
+        const API_KEY = ""; 
+        const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
+        
+        // Configuration for exponential backoff (retry logic)
+        const MAX_RETRIES = 5;
+        const INITIAL_DELAY = 1000;
+        
+        // Helper function for Base64 to ArrayBuffer conversion (for TTS - included for completeness)
+        const base64ToArrayBuffer = (base64) => {
+            const binaryString = window.atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        };
+
+        // Helper function for PCM to WAV conversion (for TTS - included for completeness)
+        const pcmToWav = (pcm16, sampleRate) => {
+            const numChannels = 1;
+            const bytesPerSample = 2;
+            const blockAlign = numChannels * bytesPerSample;
+            const byteRate = sampleRate * blockAlign;
+            const dataSize = pcm16.length * bytesPerSample;
+            const buffer = new ArrayBuffer(44 + dataSize);
+            const view = new DataView(buffer);
+
+            let offset = 0;
+
+            // RIFF chunk
+            writeString(view, offset, 'RIFF'); offset += 4;
+            view.setUint32(offset, 36 + dataSize, true); offset += 4;
+            writeString(view, offset, 'WAVE'); offset += 4;
+
+            // fmt chunk
+            writeString(view, offset, 'fmt '); offset += 4;
+            view.setUint32(offset, 16, true); offset += 4; // Sub-chunk size: 16
+            view.setUint16(offset, 1, true); offset += 2; // Audio format (1 for PCM)
+            view.setUint16(offset, numChannels, true); offset += 2; // Number of channels
+            view.setUint32(offset, sampleRate, true); offset += 4; // Sample rate
+            view.setUint32(offset, byteRate, true); offset += 4; // Byte rate
+            view.setUint16(offset, blockAlign, true); offset += 2; // Block align
+            view.setUint16(offset, 16, true); offset += 2; // Bits per sample
+
+            // data chunk
+            writeString(view, offset, 'data'); offset += 4;
+            view.setUint32(offset, dataSize, true); offset += 4;
+
+            // Write PCM data
+            for (let i = 0; i < pcm16.length; i++) {
+                view.setInt16(offset, pcm16[i], true);
+                offset += 2;
+            }
+
+            return new Blob([buffer], { type: 'audio/wav' });
+        };
+
+        const writeString = (view, offset, string) => {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        };
+
+    </script>
+    
+    <!-- Integrated FAQ Data from faqs.json -->
+    <script>
+        const FAQS_DATA = [
+            {
+                "question": "What is the maximum subsidy available under the PM Surya Ghar Muft Bijli Yojana?",
+                "answer": "The maximum subsidy available is **₹78,000** for a 3 kW system. The subsidy structure is: ₹30,000 per kW for the first 2 kW, and ₹18,000 per kW for the additional 1 kW.",
+                "keywords": "subsidy maximum cap amount finance"
+            },
+            {
+                "question": "What is the official step-by-step process for availing the PM Surya Ghar subsidy?",
+                "answer": "The official process involves four main steps: 1. **Registration:** Register on the national portal with your State, DISCOM, and Consumer Account Number. 2. **Application & Approval:** Submit your application with required documents and receive Technical Feasibility (TFA) approval from the DISCOM. 3. **Installation & Net Metering:** Get the solar plant installed by a registered vendor and apply for net metering. 4. **Inspection & Subsidy:** After DISCOM inspection, the commissioning report is generated, and the approved subsidy amount is released directly to your bank account.",
+                "keywords": "process steps apply registration discom application approval inspection net metering"
+            },
+            {
+                "question": "What are the eligibility criteria for the residential solar scheme?",
+                "answer": "To be eligible, the consumer must have a valid electricity connection for a residential dwelling. The installation must be located on the roof of the dwelling house. The system size should ideally match the consumer's average electricity consumption but cannot exceed the sanctioned load or 10 kW (whichever is lower).",
+                "keywords": "eligibility criteria who can apply residential sanctioned load"
+            },
+            {
+                "question": "How long does it take for the DISCOM to provide Technical Feasibility Approval (TFA)?",
+                "answer": "DISCOMs are required to complete site verification and feasibility analysis within **15 days** of application acknowledgment on the national portal.",
+                "keywords": "timeline approval TFA DISCOM wait time"
+            },
+            {
+                "question": "Who is responsible for the inspection and net meter installation?",
+                "answer": "The **DISCOM** (Distribution Company) in your area is generally responsible for the inspection of the installed plant and the installation of the bidirectional Net Meter. [Image of net metering system diagram]",
+                "keywords": "net metering inspection DISCOM responsibility"
+            },
+            {
+                "question": "How much roof area is required for a 1 kW solar system?",
+                "answer": "You typically need about **100 square feet (sq. ft.)** of shadow-free, usable rooftop area per 1 kW of capacity.",
+                "keywords": "area roof space footprint size 1kW"
+            },
+            {
+                "question": "What is the estimated service life of a solar system?",
+                "answer": "Solar systems are built to be highly durable and robust, with a service life typically exceeding **25 years**.",
+                "keywords": "life span warranty years durability"
+            },
+            {
+                "question": "How often do solar panels need to be cleaned?",
+                "answer": "Panels need to be cleaned regularly to maintain efficiency, typically **every 15 days** depending on local dust levels. Cleaning should be done using plain water and a soft sponge or cloth. Avoid using abrasive detergents or metal brushes.",
+                "keywords": "cleaning maintenance wash how often dust"
+            },
+            {
+                "question": "What is the best time of day to clean solar panels?",
+                "answer": "The best time to clean modules is **early morning (before 11:00 AM) or late evening (after 5:00 PM)** when the panels are cool. Cleaning hot panels during the day can cause thermal shock and cracks.",
+                "keywords": "time cleaning morning evening cool thermal shock"
+            },
+            {
+                "question": "What kind of warranty comes with solar modules?",
+                "answer": "Solar modules typically come with a **Product Warranty** (usually 10 years for workmanship) and a **Performance Warranty** (typically guaranteeing 90% output for the first 10 years and 80% output for the next 15 years, totaling 25 years).",
+                "keywords": "warranty guarantee years module performance life"
+            },
+            {
+                "question": "What happens if the grid power fails?",
+                "answer": "For standard grid-tied systems (without batteries), the inverter will automatically shut down during a power cut. This is a safety feature called **Anti-Islanding** to protect utility workers fixing the lines. If you need power during outages, a Hybrid system with battery backup is required. [Image of grid-tied solar system components]",
+                "keywords": "power cut outage grid failure safety anti-islanding battery hybrid"
+            },
+            {
+                "question": "Are concessional loans available for the installation cost?",
+                "answer": "Yes, major Public Sector Undertaking (PSU) banks have been directed to provide concessional, low-interest loans specifically for the net investment cost (total cost minus subsidy) of the residential solar systems.",
+                "keywords": "loan finance bank interest money"
+            }
+        ];
+    </script>
+    
+    <style>
+        .active {
+            border-color: #FFC107 !important;
+            color: #FFC107 !important;
+            font-weight: 600;
+        }
+        .accordion-header {
+            transition: background-color 0.3s ease;
+        }
+        .accordion-header:hover {
+            background-color: #fef08a; /* solar-100 equivalent */
+        }
+        .shadow-solar {
+            box-shadow: 0 10px 15px -3px rgba(255, 193, 7, 0.1), 0 4px 6px -2px rgba(255, 193, 7, 0.05);
+        }
+        .search-results-loading {
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @keyframes pulse-bg {
+            0%, 100% { background-color: #e5e7eb; }
+            50% { background-color: #f3f4f6; }
+        }
+        .skeleton {
+            animation: pulse-bg 1.5s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+
+    <!-- Header & Navigation (Placeholder content) -->
+    <header class="sticky top-0 bg-white shadow-lg z-10">
+        <div class="max-w-7xl mx-auto p-4 flex justify-between items-center">
+            <h1 class="text-2xl font-heading font-bold text-solar-700">Solarastra</h1>
+            <nav class="hidden md:flex space-x-6 text-gray-600 font-medium">
+                <a href="#" class="hover:text-solar-600 transition">Home</a>
+                <a href="#calculator" class="hover:text-solar-600 transition">Calculator</a>
+                <a href="#faq" class="hover:text-solar-600 transition">FAQ</a>
+                <a href="#contact" class="px-4 py-2 bg-solar-500 text-white rounded-lg shadow-md hover:bg-solar-600 transition">Get Free Quote</a>
+            </nav>
+            <button class="md:hidden text-gray-600 text-xl"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- Hero Section (Placeholder content) -->
+    <section class="bg-primary text-white py-20">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-6xl font-heading font-extrabold mb-4 leading-tight">Powering India, One Roof at a Time</h2>
+            <p class="text-xl mb-8 opacity-90">Unlock the PM Surya Ghar Subsidy and achieve Zero Electricity Bills.</p>
+            <a href="#calculator" class="inline-block px-8 py-3 bg-accent text-gray-900 font-bold rounded-xl shadow-lg hover:bg-solar-400 transition transform hover:scale-105">Estimate Your Savings Today</a>
+        </div>
+    </section>
+
+    <!-- Calculator Section (Partial content from original file) -->
+    <section id="calculator" class="py-16 bg-bg">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-3xl font-heading font-bold text-center mb-10">Your Solar Savings Estimator</h2>
+            
+            <div class="bg-white p-8 rounded-2xl shadow-xl shadow-solar border border-solar-100">
+                <!-- Inputs -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div>
+                        <label for="consumption" class="block text-sm font-medium text-gray-700 mb-1">Monthly Consumption (Units)</label>
+                        <input type="number" id="consumption" value="350" min="50" max="1000" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-solar-500 focus:border-solar-500">
+                    </div>
+                    <div>
+                        <label for="rate" class="block text-sm font-medium text-gray-700 mb-1">Average Electricity Rate (₹/Unit)</label>
+                        <input type="number" id="rate" value="7.5" step="0.5" min="1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-solar-500 focus:border-solar-500">
+                    </div>
+                    <div>
+                        <label for="systemSize" class="block text-sm font-medium text-gray-700 mb-1">Recommended System Size (kW)</label>
+                        <input type="number" id="systemSize" value="3.0" readonly class="w-full p-3 border border-solar-500 bg-solar-50 rounded-lg font-bold">
+                    </div>
+                </div>
+
+                <!-- Outputs -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
+                    <div class="p-4 bg-solar-50 rounded-xl">
+                        <p class="text-xs font-semibold text-gray-600">Annual Savings</p>
+                        <p id="annualSavings" class="text-2xl font-extrabold text-green-700 mt-1">₹0</p>
+                    </div>
+                    <div class="p-4 bg-solar-50 rounded-xl">
+                        <p class="text-xs font-semibold text-gray-600">Total Project Cost</p>
+                        <p id="projectCost" class="text-2xl font-extrabold text-primary mt-1">₹0</p>
+                    </div>
+                    <div class="p-4 bg-solar-50 rounded-xl">
+                        <p class="text-xs font-semibold text-gray-600">PM Surya Ghar Subsidy</p>
+                        <p id="subsidy" class="text-2xl font-extrabold text-solar-700 mt-1">₹0</p>
+                    </div>
+                </div>
+                
+                <!-- Call to Action -->
+                <div class="text-center">
+                    <button onclick="openModal()" class="px-8 py-3 bg-primary text-white font-bold rounded-xl shadow-md hover:bg-blue-800 transition transform hover:-translate-y-0.5">
+                        View Detailed Financial Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section: The Core of the Change -->
+    <section id="faq" class="py-16 bg-white">
+        <div class="max-w-5xl mx-auto px-4">
+            <h2 class="text-3xl font-heading font-bold text-center text-gray-800 mb-10">Frequently Asked Questions</h2>
+            
+            <!-- Search Bar -->
+            <div class="mb-8">
+                <div class="relative">
+                    <input type="text" id="faqSearchInput" oninput="searchFaqs()" placeholder="Search FAQs, e.g., 'net metering' or 'warranty'" class="w-full p-4 border-2 border-solar-400 rounded-xl focus:ring-solar-500 focus:border-solar-500 text-lg shadow-lg">
+                    <i class="fas fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-solar-500 text-xl"></i>
+                </div>
+            </div>
+            
+            <!-- FAQ List Container -->
+            <div id="faqList" class="space-y-4">
+                <!-- FAQs will be rendered here by JavaScript -->
+            </div>
+
+            <!-- Fallback Section (Hidden by default) -->
+            <div id="faqFallback" class="hidden mt-8 p-6 border-2 border-red-200 bg-red-50 rounded-xl text-center">
+                <i class="fas fa-exclamation-triangle text-red-500 text-3xl mb-4"></i>
+                <h3 class="text-xl font-bold text-red-700 mb-2">Can't Find Your Answer?</h3>
+                <p class="text-gray-700 mb-4">We couldn't find a direct answer in our knowledge base for that specific query: <span id="unansweredQuery" class="font-semibold italic"></span></p>
+                <div class="space-y-4 md:space-y-0 md:space-x-4 flex flex-col md:flex-row justify-center">
+                    <button id="geminiSearchButton" onclick="performGeminiSearch()" class="flex items-center justify-center px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-blue-800 transition transform hover:scale-[1.02]">
+                        <i class="fas fa-satellite-dish mr-2"></i> Search the Web with Gemini
+                    </button>
+                    <a href="#contact" class="flex items-center justify-center px-6 py-3 bg-accent text-gray-900 font-semibold rounded-lg shadow-md hover:bg-solar-400 transition transform hover:scale-[1.02]">
+                        <i class="fas fa-envelope mr-2"></i> Contact Our Experts
+                    </a>
+                </div>
+                
+                <!-- Gemini Search Results Container -->
+                <div id="geminiSearchResults" class="mt-6 p-4 bg-white rounded-lg border border-gray-200 text-left hidden">
+                    <h4 class="text-lg font-bold text-primary mb-3">External Search Results</h4>
+                    <div id="geminiContent" class="text-sm">
+                        <!-- Content goes here -->
+                    </div>
+                    <div id="geminiSources" class="mt-4 text-xs text-gray-500 border-t pt-2">
+                        <!-- Sources go here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form (Placeholder content for anchor) -->
+    <section id="contact" class="py-16 bg-primary">
+        <div class="max-w-3xl mx-auto px-4 text-white text-center">
+            <h2 class="text-3xl font-heading font-bold mb-4">Ready to Go Solar?</h2>
+            <p class="text-xl mb-8">Get a free, personalized quote from our certified installation team.</p>
+            <form class="bg-white p-8 rounded-xl shadow-2xl text-gray-800 space-y-4">
+                <input type="text" placeholder="Your Name" class="w-full p-3 border border-gray-300 rounded-lg">
+                <input type="email" placeholder="Your Email" class="w-full p-3 border border-gray-300 rounded-lg">
+                <input type="tel" placeholder="Your Phone Number" class="w-full p-3 border border-gray-300 rounded-lg">
+                <textarea placeholder="Your Message or Specific Query" rows="3" class="w-full p-3 border border-gray-300 rounded-lg"></textarea>
+                <button type="submit" class="w-full py-3 bg-accent text-gray-900 font-bold rounded-lg shadow-md hover:bg-solar-400 transition">Get Free Quote</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer (Placeholder content) -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="max-w-7xl mx-auto px-6 text-center text-sm">
+            <p>&copy; 2025 Solarastra India. All rights reserved. Powering the Future.</p>
+        </div>
+    </footer>
+
+    <!-- Financial Report Modal (Partial content from original file) -->
+    <div id="reportModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-6 md:p-8 w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <h3 class="text-2xl font-heading font-bold text-primary">Detailed Financial Breakdown</h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            </div>
+
+            <!-- Tab Buttons -->
+            <div class="flex border-b mb-4">
+                <button class="tab-button active flex-1 py-3 px-4 text-sm md:text-base font-semibold border-b-2 border-transparent text-gray-600 hover:text-primary hover:border-primary transition" onclick="changeTab('summary')">
+                    <i class="fas fa-file-invoice-dollar mr-2"></i> Summary
+                </button>
+                <button class="tab-button flex-1 py-3 px-4 text-sm md:text-base font-semibold border-b-2 border-transparent text-gray-600 hover:text-primary hover:border-primary transition" onclick="changeTab('monthly')">
+                    <i class="fas fa-chart-bar mr-2"></i> Monthly Impact
+                </button>
+                <button class="tab-button flex-1 py-3 px-4 text-sm md:text-base font-semibold border-b-2 border-transparent text-gray-600 hover:text-primary hover:border-primary transition" onclick="changeTab('emi')">
+                    <i class="fas fa-hand-holding-usd mr-2"></i> Loan & EMI
+                </button>
+            </div>
+
+            <!-- Tab Content: Summary -->
+            <div id="tab-summary" class="tab-content">
+                <p class="text-gray-700 mb-4">A snapshot of your long-term savings and investment.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                        <p class="text-sm font-medium text-green-700">Net Investment (After Subsidy)</p>
+                        <p id="netInvestment" class="text-2xl font-extrabold text-green-800 mt-1">₹0</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                        <p class="text-sm font-medium text-blue-700">Payback Period (Years)</p>
+                        <p id="paybackPeriod" class="text-2xl font-extrabold text-blue-800 mt-1">0.0</p>
+                    </div>
+                    <div class="bg-solar-50 p-4 rounded-lg border border-solar-200">
+                        <p class="text-sm font-medium text-solar-700">25-Year Estimated Savings</p>
+                        <p id="lifetimeSavings" class="text-2xl font-extrabold text-solar-800 mt-1">₹0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Monthly Impact -->
+            <div id="tab-monthly" class="tab-content hidden">
+                <p class="text-gray-700 mb-4">See how the solar generation compares to your current usage throughout the year.</p>
+                <div id="barChartContainer" class="w-full h-80 overflow-x-auto p-4 bg-gray-50 rounded-lg">
+                    <!-- Graph will be drawn here -->
+                </div>
+            </div>
+
+            <!-- Tab Content: Loan & EMI -->
+            <div id="tab-emi" class="tab-content hidden">
+                <h4 class="text-lg font-bold text-primary mb-3">Concessional Loan Calculation</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+                    <div>
+                        <label for="netCostForLoan" class="block text-sm font-medium text-gray-700 mb-1">Net Cost (Loan Principal)</label>
+                        <input type="text" id="netCostForLoan" readonly class="w-full p-3 border border-gray-300 bg-gray-100 rounded-lg">
+                    </div>
+                    <div>
+                        <label for="loanInterestRate" class="block text-sm font-medium text-gray-700 mb-1">Interest Rate (% Annual)</label>
+                        <input type="number" id="loanInterestRate" value="7.0" step="0.5" min="4" max="12" class="w-full p-3 border border-gray-300 rounded-lg">
+                    </div>
+                    <div>
+                        <label for="loanTenure" class="block text-sm font-medium text-gray-700 mb-1">Loan Tenure (Years)</label>
+                        <input type="range" id="loanTenure" min="5" max="15" value="10" class="w-full mt-3">
+                        <p class="text-center text-sm"><span id="tenureValue">10</span> Years</p>
+                    </div>
+                </div>
+                
+                <div class="bg-primary text-white p-6 rounded-xl text-center">
+                    <p class="text-sm font-medium opacity-80">Estimated Monthly EMI</p>
+                    <p id="monthlyEMI" class="text-3xl font-extrabold mt-1">₹0</p>
+                </div>
+
+                <p class="text-xs text-gray-500 mt-4">Note: This is an estimate based on a standard diminishing balance method. The actual rate and terms will be set by the PSU bank.</p>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t text-center">
+                 <a href="#contact" onclick="closeModal()" class="inline-block px-6 py-2 bg-accent text-gray-900 font-bold rounded-lg hover:bg-solar-400 transition">Get Final Quote</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. CORE CALCULATION LOGIC ---
+        function calculatePreviews() {
+            const consumption = parseFloat(document.getElementById('consumption').value);
+            const rate = parseFloat(document.getElementById('rate').value);
+
+            if (isNaN(consumption) || isNaN(rate) || consumption <= 0 || rate <= 0) {
+                // Handle invalid input gracefully
+                document.getElementById('systemSize').value = 'N/A';
+                return;
+            }
+
+            // Estimate system size (350 kWh/month requires ~3.0 kW, so approx 110 kWh/kW)
+            const annualConsumption = consumption * 12;
+            const systemSize = Math.max(1, Math.round((annualConsumption / 1300) * 2) / 2); // Round to nearest 0.5 kW, min 1kW
+
+            // Estimated Cost (₹55,000 per kW average)
+            const costPerKW = 55000; 
+            const totalProjectCost = systemSize * costPerKW;
+
+            // Subsidy Calculation (PM Surya Ghar Muft Bijli Yojana)
+            let subsidyAmount = 0;
+            if (systemSize <= 2) {
+                subsidyAmount = systemSize * 30000;
+            } else if (systemSize <= 3) {
+                subsidyAmount = (2 * 30000) + ((systemSize - 2) * 18000);
+            } else {
+                // Cap subsidy at 3kW (₹78,000)
+                subsidyAmount = 78000;
+            }
+            subsidyAmount = Math.min(subsidyAmount, 78000); // Enforce absolute cap
+
+            const netInvestment = totalProjectCost - subsidyAmount;
+            const annualSavings = annualConsumption * rate;
+            const paybackPeriod = annualSavings > 0 ? (netInvestment / annualSavings).toFixed(1) : 'N/A';
+            const lifetimeSavings = (annualSavings * 25).toFixed(0);
+
+            // Update Main Section
+            document.getElementById('systemSize').value = systemSize.toFixed(1);
+            document.getElementById('annualSavings').textContent = '₹' + annualSavings.toLocaleString('en-IN');
+            document.getElementById('projectCost').textContent = '₹' + totalProjectCost.toLocaleString('en-IN');
+            document.getElementById('subsidy').textContent = '₹' + subsidyAmount.toLocaleString('en-IN');
+
+            // Update Modal/Report Section
+            document.getElementById('netInvestment').textContent = '₹' + netInvestment.toLocaleString('en-IN');
+            document.getElementById('paybackPeriod').textContent = paybackPeriod;
+            document.getElementById('lifetimeSavings').textContent = '₹' + lifetimeSavings.toLocaleString('en-IN');
+            
+            // Set loan principal and calculate EMI
+            document.getElementById('netCostForLoan').value = '₹' + netInvestment.toLocaleString('en-IN');
+            document.getElementById('netCostForLoan').setAttribute('data-net-cost', netInvestment);
+            calculateEMI();
+        }
+
+        // --- 2. EMI Calculation Logic ---
+        function calculateEMI() {
+            const netCost = parseFloat(document.getElementById('netCostForLoan').getAttribute('data-net-cost'));
+            const ratePercent = parseFloat(document.getElementById('loanInterestRate').value);
+            const tenureYears = parseFloat(document.getElementById('loanTenure').value);
+
+            document.getElementById('tenureValue').textContent = tenureYears;
+
+            if (isNaN(netCost) || netCost <= 0 || isNaN(ratePercent) || isNaN(tenureYears) || tenureYears <= 0) {
+                document.getElementById('monthlyEMI').textContent = '₹0';
+                return;
+            }
+
+            // Standard EMI formula: E = P * r * (1 + r)^n / ((1 + r)^n - 1)
+            const r = (ratePercent / 100) / 12; // Monthly interest rate
+            const n = tenureYears * 12; // Total number of payments
+
+            let emi = 0;
+            if (r === 0) {
+                emi = netCost / n;
+            } else {
+                emi = netCost * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+            }
+
+            document.getElementById('monthlyEMI').textContent = '₹' + Math.round(emi).toLocaleString('en-IN');
+        }
+
+        // --- 3. FAQ Rendering and Search Logic (UPDATED) ---
+        function toggleAccordion(id) {
+            const content = document.getElementById('faq-content-' + id);
+            const icon = document.getElementById('faq-icon-' + id);
+            
+            // Close all open content sections except the current one
+            document.querySelectorAll('.accordion-content').forEach(item => {
+                if (item.id !== 'faq-content-' + id && !item.classList.contains('hidden')) {
+                    item.classList.add('hidden');
+                    document.getElementById('faq-icon-' + item.id.replace('faq-content-', 'faq-icon-')).classList.replace('fa-minus', 'fa-plus');
+                }
+            });
+
+            // Toggle current content
+            content.classList.toggle('hidden');
+            icon.classList.toggle('fa-plus');
+            icon.classList.toggle('fa-minus');
+        }
+
+        function renderFaqs(faqs, query = '') {
+            const container = document.getElementById('faqList');
+            container.innerHTML = '';
+            const fallback = document.getElementById('faqFallback');
+            const unansweredQuery = document.getElementById('unansweredQuery');
+            const searchResults = document.getElementById('geminiSearchResults');
+            searchResults.classList.add('hidden'); // Always hide results when rendering FAQs
+
+            if (faqs.length === 0 && query.trim() !== '') {
+                // No results found for a non-empty query
+                unansweredQuery.textContent = query;
+                fallback.classList.remove('hidden');
+            } else if (faqs.length === 0) {
+                 // No FAQs at all (shouldn't happen with the data)
+                 fallback.classList.add('hidden');
+                 container.innerHTML = '<p class="text-center text-gray-500">No FAQs available yet.</p>';
+            } else {
+                // FAQs found or showing all FAQs
+                fallback.classList.add('hidden');
+                faqs.forEach((faq, index) => {
+                    const faqHtml = `
+                        <div class="border border-solar-100 rounded-xl shadow-md overflow-hidden">
+                            <button class="accordion-header w-full flex justify-between items-center p-4 md:p-5 text-left text-lg font-medium bg-white hover:bg-solar-50 transition" onclick="toggleAccordion(${index})">
+                                <span class="text-primary">${faq.question}</span>
+                                <i id="faq-icon-${index}" class="fas fa-plus text-solar-500 transition-transform"></i>
+                            </button>
+                            <div id="faq-content-${index}" class="accordion-content p-5 pt-0 bg-gray-50 hidden">
+                                <p class="text-gray-700 leading-relaxed">${faq.answer}</p>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += faqHtml;
+                });
+            }
+        }
+
+        function searchFaqs() {
+            const input = document.getElementById('faqSearchInput');
+            const query = input.value.trim().toLowerCase();
+            
+            if (query === '') {
+                // Show all FAQs if search is empty
+                renderFaqs(FAQS_DATA);
+                return;
+            }
+
+            const filteredFaqs = FAQS_DATA.filter(faq => 
+                faq.question.toLowerCase().includes(query) || 
+                faq.answer.toLowerCase().includes(query) ||
+                faq.keywords.toLowerCase().includes(query)
+            );
+
+            // Re-render the list, passing the query for the fallback check
+            renderFaqs(filteredFaqs, query);
+        }
+
+        // --- 4. Gemini Search Logic (NEW) ---
+        async function performGeminiSearch() {
+            const query = document.getElementById('faqSearchInput').value.trim();
+            const resultsContainer = document.getElementById('geminiContent');
+            const sourcesContainer = document.getElementById('geminiSources');
+            const searchButton = document.getElementById('geminiSearchButton');
+            const resultsBox = document.getElementById('geminiSearchResults');
+
+            if (!query) return;
+
+            resultsBox.classList.remove('hidden');
+            searchButton.disabled = true;
+            searchButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Searching...';
+            resultsContainer.innerHTML = `
+                <div class="search-results-loading">
+                    <p class="text-gray-500">Searching the web for the best answer...</p>
+                </div>
+                <div class="mt-4 space-y-2">
+                    <div class="h-4 w-full skeleton rounded"></div>
+                    <div class="h-4 w-11/12 skeleton rounded"></div>
+                    <div class="h-4 w-10/12 skeleton rounded"></div>
+                </div>
+            `;
+            sourcesContainer.innerHTML = '';
+            
+            const systemPrompt = "Act as a helpful solar power expert for an Indian company. Based on the grounded web search results, provide a concise, single-paragraph answer to the user's query. If you cannot find a definitive answer, state that the information is currently unavailable but direct them to consult an expert.";
+            const userQuery = query;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                tools: [{ "google_search": {} }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+            
+            const url = `${GEMINI_API_URL}?key=${API_KEY}`;
+            let responseData = null;
+            let retries = 0;
+
+            while (retries < MAX_RETRIES) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.status === 429) {
+                        // Rate limit exceeded, apply exponential backoff
+                        const delay = INITIAL_DELAY * Math.pow(2, retries);
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        retries++;
+                        continue; // Retry the request
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    responseData = await response.json();
+                    break; // Success, exit loop
+                    
+                } catch (error) {
+                    console.error("Gemini API call failed:", error);
+                    // For non-rate limit errors or final failure
+                    if (retries === MAX_RETRIES - 1) {
+                         resultsContainer.innerHTML = '<p class="text-red-600">Failed to connect to the search service. Please try again later or contact support.</p>';
+                         searchButton.innerHTML = '<i class="fas fa-satellite-dish mr-2"></i> Search the Web with Gemini';
+                         searchButton.disabled = false;
+                         return;
+                    }
+                    // Apply backoff for other transient errors before retrying
+                    const delay = INITIAL_DELAY * Math.pow(2, retries);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    retries++;
+                }
+            }
+
+
+            const candidate = responseData?.candidates?.[0];
+            
+            if (candidate && candidate.content?.parts?.[0]?.text) {
+                const text = candidate.content.parts[0].text;
+                let sources = [];
+                const groundingMetadata = candidate.groundingMetadata;
+
+                if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                    sources = groundingMetadata.groundingAttributions
+                        .map(attribution => ({
+                            uri: attribution.web?.uri,
+                            title: attribution.web?.title,
+                        }))
+                        .filter(source => source.uri && source.title);
+                }
+
+                // Render the generated text
+                resultsContainer.innerHTML = `<p>${text}</p>`;
+
+                // Render the sources
+                if (sources.length > 0) {
+                    let sourcesHtml = '<p class="font-medium mb-1">Sources:</p><ul class="list-disc pl-5 space-y-1">';
+                    sources.forEach((source, index) => {
+                        sourcesHtml += `<li><a href="${source.uri}" target="_blank" class="text-primary hover:underline">${source.title}</a></li>`;
+                    });
+                    sourcesHtml += '</ul>';
+                    sourcesContainer.innerHTML = sourcesHtml;
+                } else {
+                    sourcesContainer.innerHTML = '<p class="text-gray-400">No specific web sources cited.</p>';
+                }
+
+            } else {
+                resultsContainer.innerHTML = '<p class="text-red-600">Sorry, the search service could not provide an answer for that query right now.</p>';
+            }
+            
+            searchButton.innerHTML = '<i class="fas fa-satellite-dish mr-2"></i> Search the Web with Gemini';
+            searchButton.disabled = false;
+        }
+
+
+        // --- 5. Modal and Tab Logic ---
+        function openModal() {
+            document.getElementById('reportModal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            drawGraph(); 
+            // Ensure summary tab is active upon opening
+            changeTab('summary'); 
+        }
+
+        function closeModal() {
+            document.getElementById('reportModal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function changeTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.querySelector(`.tab-button[onclick*='${tabId}']`).classList.add('active');
+        }
+
+        // --- 6. Bar Chart Drawing Logic (Placeholder Data) ---
+        function drawGraph() {
+            const container = document.getElementById('barChartContainer');
+            container.innerHTML = ''; 
+
+            const systemSize = parseFloat(document.getElementById('systemSize').value);
+            const consumption = parseFloat(document.getElementById('consumption').value);
+            
+            if (isNaN(systemSize) || isNaN(consumption) || systemSize === 0) {
+                 container.innerHTML = '<p class="text-center text-gray-500 mt-10">Run the main calculator first to view the chart.</p>';
+                 return;
+            }
+
+            // Mock monthly data based on system size and average consumption
+            const totalAnnualGen = systemSize * 1300; // Average Kwh/kW/year
+            const avgMonthlyGen = totalAnnualGen / 12;
+
+            // Simple skewing: assume more generation in summer months (index 3-8: Apr-Sep)
+            const monthlyFactors = [0.75, 0.8, 1.1, 1.2, 1.25, 1.2, 1.15, 1.1, 0.9, 0.85, 0.7, 0.9];
+            const maxGen = avgMonthlyGen * 1.25; // Base max on highest factor
+            const maxUsage = consumption * 1.1; // Base max on slightly higher than average usage
+
+            // Determine the maximum scale for the chart
+            const maxScale = Math.max(maxGen, maxUsage) * 1.1;
+
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            
+            container.classList.add('flex', 'space-x-4', 'items-end');
+            container.classList.remove('overflow-x-auto'); // We need flex/scroll now
+
+            monthNames.forEach((month, index) => {
+                const monthlyGen = avgMonthlyGen * monthlyFactors[index];
+                const monthlyUsage = consumption + (Math.random() * consumption * 0.1 - consumption * 0.05); // Add some randomness
+
+                // Calculate bar heights as a percentage of the max scale
+                const solarH = (monthlyGen / maxScale) * 100;
+                const usageH = (monthlyUsage / maxScale) * 100;
+
+                const barGroup = document.createElement('div');
+                barGroup.className = 'flex flex-col items-center flex-shrink-0 w-16 h-full';
+                barGroup.style.height = '100%'; 
+
+                const barContainer = document.createElement('div');
+                barContainer.className = 'flex flex-row items-end h-[85%] w-full mb-1'; 
+
+                const barSolar = document.createElement('div');
+                barSolar.title = `Solar Gen: ${monthlyGen.toFixed(0)} units`;
+                barSolar.className = 'w-1/2 bg-solar-500 rounded-t-sm';
+                barSolar.style.height = solarH + '%';
+                barSolar.style.transition = 'height 1s ease-out'; // Add transition for effect
+
+                const barUsage = document.createElement('div');
+                barUsage.title = `Usage: ${monthlyUsage.toFixed(0)} units`;
+                barUsage.className = 'w-1/2 bg-primary rounded-t-sm opacity-70';
+                barUsage.style.height = usageH + '%';
+                barUsage.style.transition = 'height 1s ease-out'; // Add transition for effect
+
+                barContainer.appendChild(barSolar);
+                barContainer.appendChild(barUsage);
+                barGroup.appendChild(barContainer);
+
+                const label = document.createElement('span');
+                label.className = 'text-xs text-gray-600 font-medium h-[15%] flex items-center';
+                label.textContent = month;
+                barGroup.appendChild(label);
+                
+                container.appendChild(barGroup);
+            });
+            
+            // Add a legend
+            const legend = document.createElement('div');
+            legend.className = 'w-full flex justify-center space-x-6 text-sm text-gray-700 mt-4';
+            legend.innerHTML = `
+                <div class="flex items-center"><span class="w-3 h-3 bg-solar-500 rounded-full mr-2"></span> Solar Generation</div>
+                <div class="flex items-center"><span class="w-3 h-3 bg-primary rounded-full mr-2"></span> Monthly Consumption</div>
+            `;
+            container.parentNode.insertBefore(legend, container.nextSibling); // Insert legend after chart
+        }
+
+
+        // Initial setup and calculation on load
+        window.onload = function() {
+            calculatePreviews();
+            renderFaqs(FAQS_DATA); // Render the FAQs initially
+
+            // Attach listeners
+            document.getElementById('consumption').oninput = calculatePreviews;
+            document.getElementById('rate').oninput = calculatePreviews;
+            document.getElementById('loanTenure').oninput = calculateEMI;
+            document.getElementById('loanInterestRate').oninput = calculateEMI;
+        };
+    </script>
+</body>
+</html>
