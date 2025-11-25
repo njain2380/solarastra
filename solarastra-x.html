@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en-IN">
 <head>
@@ -19,6 +20,9 @@
     
     <!-- Custom Config -->
     <script>
+        // Set log level to Debug for Firestore to show logs in console
+        // if (typeof firebaseConfig !== 'undefined') { setLogLevel('Debug'); }
+
         tailwind.config = {
             theme: {
                 extend: {
@@ -44,16 +48,10 @@
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-10px)' },
-                        },
-                        // Added keyframe for the gaudy animated icon
-                        'spin-slow': {
-                            '0%': { transform: 'rotate(0deg)' },
-                            '100%': { transform: 'rotate(360deg)' },
                         }
                     },
                     animation: {
                         float: 'float 4s ease-in-out infinite',
-                        'spin-slow': 'spin-slow 30s linear infinite', // Slower spin
                     }
                 },
             }
@@ -70,13 +68,12 @@
             text-fill-color: transparent;
         }
 
-        /* Original Gaudy Hero Background */
-        .hero-bg-original {
-            background-color: #0D1B2A; /* Navy 900 */
-            /* Prominent pattern for the "gaudy" feel */
-            background-image: radial-gradient(#152B43 1px, transparent 1px), radial-gradient(#152B43 1px, transparent 1px);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
+        /* Custom pattern for hero background */
+        .hero-bg {
+            background-image: radial-gradient(circle at 100% 100%, #152B43 1px, transparent 1px),
+                              radial-gradient(circle at 0% 0%, #152B43 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-color: #0D1B2A;
         }
 
         /* Styling for the modal/report tabs */
@@ -93,22 +90,22 @@
             overflow: hidden;
         }
         .accordion-content.open {
-            max-height: 800px; /* Increased height for detailed FAQ content */
+            max-height: 500px; /* Sufficient height to cover most content */
             opacity: 1;
         }
     </style>
 </head>
 <body class="bg-navy-50 font-sans text-navy-900">
 
-    <!-- Navbar (Reverted to include "Solarastra" text and smaller logo) -->
+    <!-- Navbar -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <!-- Logo with Text (Reverted) -->
+                <!-- Logo and Brand -->
                 <div class="flex-shrink-0 flex items-center">
                     <!-- INTEGRATED UPLOADED LOGO HERE (logo-orange.jpg) -->
-                    <img src="https://html-starter-nine-lac.vercel.app/logo-orange.png" alt="Solarastra Logo" class="h-8 w-8 rounded-full shadow-md mr-2">
-                    <span class="text-2xl font-heading font-bold text-navy-900"></span>
+                    <img src="logo-orange.png" alt="Solarastra Logo" class="h-8 w-8 rounded-full shadow-md mr-2">
+                    <span class="text-2xl font-heading font-bold text-navy-900">Solarastra</span>
                 </div>
                 
                 <!-- Nav Links -->
@@ -142,19 +139,14 @@
     </nav>
 
     <main class="pt-16">
-        <!-- Hero Section (Reverted to Gaudy/Animated Version) -->
-        <section id="hero" class="hero-bg-original text-white pt-24 pb-32 md:pt-36 md:pb-40 text-center overflow-hidden relative border-b-8 border-solar-500/50">
-            <!-- Animated Solar Panel Icon (The "gaudy" element, slightly transparent) -->
-            <div class="absolute inset-0 flex justify-center items-center opacity-10">
-                <i class="fa-solid fa-solar-panel text-[20rem] text-solar-400 opacity-20 animate-spin-slow"></i>
-            </div>
-            
-            <div class="max-w-4xl mx-auto px-4 relative z-10">
-                <h1 class="font-heading text-4xl sm:text-5xl md:text-6xl font-extrabold leading-snug mb-6">
+        <!-- Hero Section -->
+        <section id="hero" class="hero-bg text-white pt-24 pb-32 md:pt-40 md:pb-48 text-center overflow-hidden">
+            <div class="max-w-4xl mx-auto px-4 relative">
+                <h1 class="font-heading text-4xl sm:text-6xl md:text-7xl font-extrabold leading-tight mb-6">
                     Make Your Electricity Bill <br>
                     <span class="gradient-text">Zero Rupees</span>.
                 </h1>
-                <p class="text-lg sm:text-xl text-navy-100 mb-10 max-w-2xl mx-auto">
+                <p class="text-xl sm:text-2xl text-navy-100 mb-10 max-w-2xl mx-auto">
                     Avail the **PM Surya Ghar** subsidy and power your home with clean, free solar energy.
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
@@ -165,6 +157,11 @@
                         Max Subsidy: <span class="text-green-400 font-bold">₹78,000</span>
                     </p>
                 </div>
+            </div>
+            
+            <!-- Animated Solar Panel Icon -->
+            <div class="absolute inset-0 flex justify-center items-center opacity-10">
+                <i class="fa-solid fa-solar-panel text-9xl text-white/5 animate-spin duration-[10s] slow-spin"></i>
             </div>
         </section>
 
@@ -364,27 +361,45 @@
             </div>
         </section>
 
-        <!-- FAQ Section (New Searchable Version) -->
+        <!-- FAQ Section -->
         <section id="faq" class="py-16 md:py-24 bg-white">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl md:text-4xl font-heading font-bold text-center text-navy-900 mb-6">Detailed & Searchable FAQs</h2>
-                <p class="text-center text-lg text-gray-600 mb-8">Official information on the PM Surya Ghar scheme and solar installation.</p>
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-center text-navy-900 mb-12">Frequently Asked Questions</h2>
                 
-                <!-- Search Bar -->
-                <div class="mb-8">
-                    <input type="text" id="faqSearch" oninput="filterFaqs()" class="w-full p-4 border-2 border-solar-100 rounded-xl shadow-lg focus:border-solar-500 focus:ring-solar-500 transition duration-150" placeholder="Search questions about subsidy, cost, or process...">
-                </div>
+                <div class="space-y-4">
+                    <!-- FAQ 1 -->
+                    <div class="border border-navy-100 rounded-xl overflow-hidden shadow-md">
+                        <button class="flex justify-between items-center w-full p-5 text-left bg-navy-50 hover:bg-navy-100 transition duration-150" onclick="toggleAccordion(this)">
+                            <span class="text-lg font-semibold text-navy-900">Is the PM Surya Ghar subsidy applied automatically?</span>
+                            <i class="fa-solid fa-chevron-down text-solar-500 transition-transform duration-300"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <p class="p-5 text-gray-700">No, the subsidy is sanctioned and deposited into your bank account *after* the successful installation of the solar plant and inspection by the DISCOM. Solarastra assists you with the full application and documentation process.</p>
+                        </div>
+                    </div>
 
-                <!-- FAQ List Container -->
-                <div id="faqList" class="space-y-4">
-                    <!-- FAQs will be dynamically inserted here by JavaScript -->
-                    <div class="text-center text-gray-500 py-12" id="faqLoading">Loading detailed FAQs...</div>
-                </div>
-                
-                <div id="noResults" class="hidden text-center text-red-500 py-8">
-                    <i class="fa-solid fa-circle-exclamation mr-2"></i> No matching FAQs found. Try a different keyword.
-                </div>
+                    <!-- FAQ 2 -->
+                    <div class="border border-navy-100 rounded-xl overflow-hidden shadow-md">
+                        <button class="flex justify-between items-center w-full p-5 text-left bg-navy-50 hover:bg-navy-100 transition duration-150" onclick="toggleAccordion(this)">
+                            <span class="text-lg font-semibold text-navy-900">What is Net Metering and how does it work?</span>
+                            <i class="fa-solid fa-chevron-down text-solar-500 transition-transform duration-300"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <p class="p-5 text-gray-700">Net Metering allows you to send excess electricity generated by your solar panels back to the grid. Your electricity meter runs backwards when you generate more than you use. This excess generation is credited to your monthly bill, effectively reducing it to zero or resulting in a credit.</p>
+                        </div>
+                    </div>
 
+                    <!-- FAQ 3 -->
+                    <div class="border border-navy-100 rounded-xl overflow-hidden shadow-md">
+                        <button class="flex justify-between items-center w-full p-5 text-left bg-navy-50 hover:bg-navy-100 transition duration-150" onclick="toggleAccordion(this)">
+                            <span class="text-lg font-semibold text-navy-900">How much roof area is required for a solar system?</span>
+                            <i class="fa-solid fa-chevron-down text-solar-500 transition-transform duration-300"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <p class="p-5 text-gray-700">Generally, a 1 kW system requires about 100 sq. ft. of shadow-free, usable roof area. A 3 kW system, for example, would require approximately 300 sq. ft.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -400,7 +415,52 @@
         </section>
     </main>
 
-    <!-- Detailed Report Modal (Hidden by Default) - Keep unchanged -->
+    <!-- Footer -->
+    <footer class="bg-navy-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- Brand Info -->
+                <div>
+                    <h4 class="text-xl font-heading font-bold text-solar-500 mb-4">Solarastra</h4>
+                    <p class="text-sm text-white/70">Powering every Indian roof with sustainable and affordable solar energy solutions.</p>
+                </div>
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-heading font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#benefits" class="hover:text-solar-500 transition duration-150">Benefits</a></li>
+                        <li><a href="#subsidy" class="hover:text-solar-500 transition duration-150">Subsidy Scheme</a></li>
+                        <li><a href="#calculator" class="hover:text-solar-500 transition duration-150">Calculator</a></li>
+                        <li><a href="#stories" class="hover:text-solar-500 transition duration-150">Success Stories</a></li>
+                    </ul>
+                </div>
+                <!-- Support -->
+                <div>
+                    <h4 class="text-lg font-heading font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-solar-500 transition duration-150">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-solar-500 transition duration-150">Careers</a></li>
+                        <li><a href="#" class="hover:text-solar-500 transition duration-150">Service Area</a></li>
+                    </ul>
+                </div>
+                <!-- Connect -->
+                <div>
+                    <h4 class="text-lg font-heading font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-white hover:text-solar-500 transition duration-150"><i class="fa-brands fa-facebook-f text-xl"></i></a>
+                        <a href="#" class="text-white hover:text-solar-500 transition duration-150"><i class="fa-brands fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-white hover:text-solar-500 transition duration-150"><i class="fa-brands fa-linkedin-in text-xl"></i></a>
+                        <a href="#" class="text-white hover:text-solar-500 transition duration-150"><i class="fa-brands fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-10 pt-8 border-t border-white/10 text-center text-sm text-white/50">
+                &copy; 2024 Solarastra India. All rights reserved. | Empowering India's energy future.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Detailed Report Modal (Hidden by Default) -->
     <div id="reportModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm overflow-y-auto">
         <div class="relative max-w-5xl mx-auto my-8 bg-white rounded-xl shadow-2xl overflow-hidden">
             <!-- Modal Header -->
@@ -561,50 +621,6 @@
 
 
     <script>
-        // --- DATA for Searchable FAQ (JSON array) ---
-        const FAQS_DATA = [
-            {
-                question: "What is the maximum subsidy available under the PM Surya Ghar Muft Bijli Yojana?",
-                answer: "The maximum subsidy available is **₹78,000** for a 3 kW system. The subsidy structure is: ₹30,000 per kW for the first 2 kW, and ₹18,000 per kW for the additional 1 kW.",
-                keywords: "subsidy maximum cap amount finance"
-            },
-            {
-                question: "What is the official step-by-step process for availing the PM Surya Ghar subsidy?",
-                answer: "The official process involves four main steps: 1. **Registration:** Register on the national portal with your State, DISCOM, and Consumer Account Number. 2. **Application & Approval:** Submit your application with required documents and receive Technical Feasibility (TFA) approval from the DISCOM. 3. **Installation & Net Metering:** Get the solar plant installed by a registered vendor and apply for net metering. 4. **Inspection & Subsidy:** After DISCOM inspection, the commissioning report is generated, and the approved subsidy amount is released directly to your bank account.",
-                keywords: "process steps apply registration discom application approval inspection net metering"
-            },
-            {
-                question: "What are the eligibility criteria for the residential solar scheme?",
-                answer: "To be eligible, the consumer must have a valid electricity connection for a residential dwelling. The installation must be located on the roof of the dwelling house. The system size should ideally match the consumer's average electricity consumption and is subsidized up to 3 kW.",
-                keywords: "eligibility criteria who can apply residential dwelling connection"
-            },
-            {
-                question: "What is the estimated cost of a residential solar system per kW in India?",
-                answer: "The typical total cost of installing a residential solar panel system in India ranges from **₹50,000 to ₹75,000 per kW** (before deducting the government subsidy). The final cost depends on various technical choices.",
-                keywords: "cost price per kw installation expenses estimate"
-            },
-            {
-                question: "How much roof area is required for solar panel installation?",
-                answer: "Generally, a 1 kW system requires approximately **100 square feet (sq. ft.)** of shadow-free, usable rooftop area. Therefore, a standard 3 kW system would require around 300 sq. ft. You need an unshaded, south-facing (in India) area for best results.",
-                keywords: "area roof space required size sq ft"
-            },
-            {
-                question: "What factors influence the total installation cost of a solar system?",
-                answer: "Key factors include the total system size, the type of solar panels used (e.g., Mono PERC vs. Half-cut panels), the inverter technology (string inverter vs. micro-inverters), and the type of mounting structure (e.g., elevated structures for better shadow clearance).",
-                keywords: "factors cost change technical components inverter panels"
-            },
-            {
-                question: "What is the expected service life and required maintenance for a solar system?",
-                answer: "Solar systems are highly durable and have a service life of **25 years or more**. Maintenance is minimal, primarily involving regular cleaning of the solar panels and occasional checks on the inverter and wiring connections. This low maintenance makes solar a great long-term investment.",
-                keywords: "life maintenance durability cleaning warranty"
-            },
-            {
-                question: "Are low-interest loans available for solar installation under the scheme?",
-                answer: "Yes, the PM Surya Ghar scheme promotes the availability of **concessional low-interest loans** through major Public Sector Undertaking (PSU) banks to help beneficiaries cover the net investment cost after the subsidy.",
-                keywords: "loan emi bank finance psu interest"
-            }
-        ];
-        
         // --- JavaScript Logic for Interactive Components ---
 
         // 1. Mobile Menu Toggle
@@ -613,14 +629,14 @@
             menu.classList.toggle('hidden');
         });
 
-        // 2. Accordion Logic (Modified to handle dynamic list)
+        // 2. Accordion Logic for FAQs
         function toggleAccordion(button) {
             const content = button.nextElementSibling;
             const icon = button.querySelector('i');
             const isOpen = content.classList.contains('open');
 
-            // Close all open accordions first (if not the one clicked)
-            document.querySelectorAll('#faqList .accordion-content').forEach(item => {
+            // Close all open accordions first
+            document.querySelectorAll('.accordion-content').forEach(item => {
                 if (item !== content) {
                     item.classList.remove('open');
                     item.previousElementSibling.querySelector('i').classList.remove('rotate-180');
@@ -637,77 +653,14 @@
             }
         }
 
-        // 3. Searchable FAQ Logic
-        function renderFaqs(faqs) {
-            const faqList = document.getElementById('faqList');
-            const noResults = document.getElementById('noResults');
-            faqList.innerHTML = '';
-            
-            if (faqs.length === 0) {
-                noResults.classList.remove('hidden');
-                return;
-            }
-            noResults.classList.add('hidden');
-
-            faqs.forEach((faq, index) => {
-                const faqItem = document.createElement('div');
-                faqItem.className = 'border border-navy-100 rounded-xl overflow-hidden shadow-md';
-                
-                // Button
-                const button = document.createElement('button');
-                button.className = 'flex justify-between items-center w-full p-5 text-left bg-navy-50 hover:bg-navy-100 transition duration-150';
-                button.setAttribute('onclick', 'toggleAccordion(this)');
-                
-                const questionSpan = document.createElement('span');
-                questionSpan.className = 'text-lg font-semibold text-navy-900';
-                questionSpan.textContent = faq.question;
-                
-                const icon = document.createElement('i');
-                icon.className = 'fa-solid fa-chevron-down text-solar-500 transition-transform duration-300';
-                
-                button.appendChild(questionSpan);
-                button.appendChild(icon);
-                
-                // Content
-                const contentDiv = document.createElement('div');
-                contentDiv.className = 'accordion-content';
-                
-                const answerParagraph = document.createElement('p');
-                answerParagraph.className = 'p-5 text-gray-700';
-                answerParagraph.innerHTML = faq.answer; // Use innerHTML to render bold markdown
-                
-                contentDiv.appendChild(answerParagraph);
-                
-                faqItem.appendChild(button);
-                faqItem.appendChild(contentDiv);
-                faqList.appendChild(faqItem);
-            });
-        }
-
-        function filterFaqs() {
-            const searchTerm = document.getElementById('faqSearch').value.toLowerCase();
-            
-            if (!searchTerm) {
-                renderFaqs(FAQS_DATA);
-                return;
-            }
-
-            const filteredFaqs = FAQS_DATA.filter(faq => 
-                faq.question.toLowerCase().includes(searchTerm) || 
-                faq.answer.toLowerCase().includes(searchTerm) ||
-                faq.keywords.toLowerCase().includes(searchTerm)
-            );
-            
-            renderFaqs(filteredFaqs);
-        }
-        
-        // --- Calculator & Report Logic (Unchanged) ---
+        // 3. Calculator & Report Logic
 
         const subsidy_rate_2kw = 30000;
         const subsidy_rate_max = 78000;
         const subsidy_rate_additional = 18000;
         const cost_per_kw = 65000; // Estimated project cost per kW (before subsidy)
 
+        // Function to simulate location detection
         function simulateLocationDetection() {
             const info = document.getElementById('location-factor');
             info.textContent = 'Detecting...';
@@ -724,13 +677,16 @@
             const monthlyConsumption = (monthlyBill / billRate);
             document.getElementById('consumption-info').textContent = `Estimated monthly consumption: ${monthlyConsumption.toFixed(0)} Units`;
             
+            // Assume daily consumption / radiation factor = system size in kW
             const avgDailyConsumption = monthlyConsumption / 30; 
-            const avgDailyRadiation = 4.5; 
+            const avgDailyRadiation = 4.5; // Use default 4.5 if not detected
             
             let systemSize = (avgDailyConsumption / avgDailyRadiation);
             
+            // Round up to nearest 0.5 kW, capped at 10 kW for residential
             systemSize = Math.min(10, Math.ceil(systemSize * 2) / 2);
 
+            // A 0.5 kW system is not practical for this level of consumption, so minimum 1 kW
             return Math.max(1, systemSize); 
         }
 
@@ -739,12 +695,14 @@
             if (systemSize <= 2) {
                 subsidy = systemSize * subsidy_rate_2kw;
             } else {
+                // 2kW at 30k/kW
                 subsidy = 2 * subsidy_rate_2kw;
-                // Subsidy for additional 1kW capacity only, up to 3kW system.
+                // Additional capacity (Size - 2kW) at 18k/kW, up to a max of 1kW additional for a 3kW system.
                 const additionalKW = Math.min(1, systemSize - 2); 
                 subsidy += additionalKW * subsidy_rate_additional;
             }
 
+            // Cap the subsidy at the maximum
             return Math.min(subsidy, subsidy_rate_max);
         }
 
@@ -782,15 +740,14 @@
             const subsidyRatio = (subsidy / totalCost) * 100;
             document.getElementById('subsidyBar').style.width = `${Math.min(100, subsidyRatio)}%`;
             
-            calculateEMI(); 
+            calculateEMI(); // Recalculate EMI whenever core values change
         }
 
         function calculateEMI() {
-            const netInvestmentText = document.getElementById('costNet').innerText;
-            const netInvestment = parseFloat(netInvestmentText.replace(/,/g, ''));
+            const netInvestment = parseFloat(document.getElementById('costNet').innerText.replace(/,/g, ''));
             const tenure = parseInt(document.getElementById('loanTenure').value);
             const monthlyBill = parseFloat(document.getElementById('monthlyBill').value);
-            const rate = 0.075; 
+            const rate = 0.075; // Annual interest rate (7.5% assumed)
 
             document.getElementById('tenureVal').innerText = tenure;
 
@@ -822,12 +779,15 @@
             const container = document.getElementById('graphContainer');
             container.innerHTML = '';
             
+            // Mock Data Generation vs Consumption
             const months = ['J','F','M','A','M','J','J','A','S','O','N','D'];
             
             months.forEach((m, i) => {
-                let solarH = 40 + (Math.sin((i/11)*Math.PI) * 50); 
-                let usageH = 30 + (Math.sin(((i+2)/13)*Math.PI) * 40); 
+                // Generate sinusoidal solar curve peaking in May
+                let solarH = 40 + (Math.sin((i/11)*Math.PI) * 50); // Peak middle
+                let usageH = 30 + (Math.sin(((i+2)/13)*Math.PI) * 40); // Usage peak slightly offset
                 
+                // Adjust for monsoon (July/Aug dip)
                 if(i === 6 || i === 7) solarH *= 0.6; 
 
                 const barGroup = document.createElement('div');
@@ -851,7 +811,7 @@
         function openModal() {
             document.getElementById('reportModal').classList.remove('hidden');
             document.body.classList.add('overflow-hidden');
-            drawGraph(); 
+            drawGraph(); // Draw graph when the modal is opened
         }
 
         function closeModal() {
@@ -860,6 +820,7 @@
         }
 
         function changeTab(tabId) {
+            // Hide all content and remove active from buttons
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.add('hidden');
             });
@@ -867,6 +828,7 @@
                 button.classList.remove('active');
             });
 
+            // Show the selected content and set button as active
             document.getElementById('tab-' + tabId).classList.remove('hidden');
             document.querySelector(`.tab-button[onclick*='${tabId}']`).classList.add('active');
         }
@@ -875,7 +837,6 @@
         // Initial setup and calculation on load
         window.onload = function() {
             calculatePreviews();
-            renderFaqs(FAQS_DATA); // Render the FAQs initially
         };
 
         // Initialize the EMI calculation
