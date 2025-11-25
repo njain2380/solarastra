@@ -6,15 +6,19 @@
     <title>Solarastra India | Powering Every Indian Roof</title>
     <meta name="description" content="Switch to solar with Solarastra. Avail PM Surya Ghar subsidy, reduce electricity bills to zero, and get expert installation across India.">
     
-    <!-- Google Fonts --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome for Icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Custom Config --><script>
+    <!-- Custom Config -->
+    <script>
         tailwind.config = {
             theme: {
                 extend: {
@@ -41,6 +45,7 @@
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-10px)' },
                         },
+                        // Added keyframe for the gaudy animated icon
                         'spin-slow': {
                             '0%': { transform: 'rotate(0deg)' },
                             '100%': { transform: 'rotate(360deg)' },
@@ -48,7 +53,7 @@
                     },
                     animation: {
                         float: 'float 4s ease-in-out infinite',
-                        'spin-slow': 'spin-slow 30s linear infinite', 
+                        'spin-slow': 'spin-slow 30s linear infinite', // Slower spin
                     }
                 },
             }
@@ -65,18 +70,22 @@
             text-fill-color: transparent;
         }
 
+        /* Original Gaudy Hero Background */
         .hero-bg-original {
             background-color: #0D1B2A; /* Navy 900 */
+            /* Prominent pattern for the "gaudy" feel */
             background-image: radial-gradient(#152B43 1px, transparent 1px), radial-gradient(#152B43 1px, transparent 1px);
             background-size: 40px 40px;
             background-position: 0 0, 20px 20px;
         }
 
+        /* Styling for the modal/report tabs */
         .tab-button.active {
             border-bottom-color: #FF9800;
             color: #FF9800;
         }
 
+        /* Accordion transition for smooth open/close */
         .accordion-content {
             transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
             max-height: 0;
@@ -84,48 +93,58 @@
             overflow: hidden;
         }
         .accordion-content.open {
-            max-height: 800px; 
+            max-height: 800px; /* Increased height for detailed FAQ content */
             opacity: 1;
         }
     </style>
 </head>
 <body class="bg-navy-50 font-sans text-navy-900">
 
-    <!-- Navbar --><nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-md">
+    <!-- Navbar (Reverted to include "Solarastra" text and smaller logo) -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
+                <!-- Logo with Text (Reverted) -->
                 <div class="flex-shrink-0 flex items-center">
-                    <img src="https://html-starter-nine-lac.vercel.app/logo-orange.png" alt="Solarastra Logo" class="h-16 w-16 rounded-full shadow-md mr-2"> <!-- Changed h-8 w-8 to h-16 w-16 --><span class="text-2xl font-heading font-bold text-navy-900">Solarastra</span>
+                    <!-- INTEGRATED UPLOADED LOGO HERE (logo-orange.jpg) -->
+                    <img src="https://html-starter-nine-lac.vercel.app/logo-orange.png" alt="Solarastra Logo" class="h-8 w-8 rounded-full shadow-md mr-2">
+                    <span class="text-2xl font-heading font-bold text-navy-900"></span>
                 </div>
                 
+                <!-- Nav Links -->
                 <div class="hidden md:flex space-x-8">
                     <a href="#benefits" class="text-navy-900 hover:text-solar-500 transition duration-150 font-medium">Benefits</a>
                     <a href="#subsidy" class="text-navy-900 hover:text-solar-500 transition duration-150 font-medium">Subsidy</a>
                     <a href="#calculator" class="text-navy-900 hover:text-solar-500 transition duration-150 font-medium">Calculator</a>
-                    <a href="#faq" class="text-navy-900 hover:text-solar-500 transition duration-150 font-medium">FAQ</a>
+                    <a href="#stories" class="text-navy-900 hover:text-solar-500 transition duration-150 font-medium">Stories</a>
                 </div>
 
+                <!-- CTA Button -->
                 <a href="#calculator" class="hidden md:block bg-solar-500 text-white py-2 px-6 rounded-full font-bold shadow-lg hover:bg-solar-700 hover:shadow-xl transition duration-300 transform hover:scale-105">
                     Get Free Quote
                 </a>
 
+                <!-- Mobile Menu Button -->
                 <button id="mobile-menu-button" class="md:hidden text-navy-900 focus:outline-none">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
         </div>
 
+        <!-- Mobile Menu (Hidden by default) -->
         <div id="mobile-menu" class="hidden md:hidden px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-inner">
             <a href="#benefits" class="block px-3 py-2 rounded-md text-base font-medium text-navy-900 hover:bg-navy-100">Benefits</a>
             <a href="#subsidy" class="block px-3 py-2 rounded-md text-base font-medium text-navy-900 hover:bg-navy-100">Subsidy</a>
             <a href="#calculator" class="block px-3 py-2 rounded-md text-base font-medium text-navy-900 hover:bg-navy-100">Calculator</a>
-            <a href="#faq" class="block px-3 py-2 rounded-md text-base font-medium text-navy-900 hover:bg-navy-100">FAQ</a>
+            <a href="#stories" class="block px-3 py-2 rounded-md text-base font-medium text-navy-900 hover:bg-navy-100">Stories</a>
             <a href="#calculator" class="block w-full text-center bg-solar-500 text-white py-2 rounded-full font-bold mt-2 hover:bg-solar-700">Get Free Quote</a>
         </div>
     </nav>
 
     <main class="pt-16">
-        <!-- Hero Section --><section id="hero" class="hero-bg-original text-white pt-24 pb-32 md:pt-36 md:pb-40 text-center overflow-hidden relative border-b-8 border-solar-500/50">
+        <!-- Hero Section (Reverted to Gaudy/Animated Version) -->
+        <section id="hero" class="hero-bg-original text-white pt-24 pb-32 md:pt-36 md:pb-40 text-center overflow-hidden relative border-b-8 border-solar-500/50">
+            <!-- Animated Solar Panel Icon (The "gaudy" element, slightly transparent) -->
             <div class="absolute inset-0 flex justify-center items-center opacity-10">
                 <i class="fa-solid fa-solar-panel text-[20rem] text-solar-400 opacity-20 animate-spin-slow"></i>
             </div>
@@ -149,20 +168,24 @@
             </div>
         </section>
 
-        <!-- Benefits Section --><section id="benefits" class="py-16 md:py-24 bg-navy-50">
+        <!-- Benefits Section -->
+        <section id="benefits" class="py-16 md:py-24 bg-navy-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl md:text-4xl font-heading font-bold text-center text-navy-900 mb-12">Why Go Solar With Solarastra?</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Benefit Card 1 -->
                     <div class="bg-white p-8 rounded-xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:translate-y-[-5px]">
                         <i class="fa-solid fa-indian-rupee-sign text-4xl text-solar-500 mb-4"></i>
                         <h3 class="text-xl font-heading font-semibold text-navy-900 mb-3">Zero Electricity Bills</h3>
                         <p class="text-gray-600">Generate more power than you consume and eliminate your monthly utility expenses through Net Metering.</p>
                     </div>
+                    <!-- Benefit Card 2 -->
                     <div class="bg-white p-8 rounded-xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:translate-y-[-5px]">
                         <i class="fa-solid fa-hand-holding-dollar text-4xl text-solar-500 mb-4"></i>
                         <h3 class="text-xl font-heading font-semibold text-navy-900 mb-3">Government Subsidy</h3>
                         <p class="text-gray-600">Directly avail up to ₹78,000 subsidy under the PM Surya Ghar Muft Bijli Yojana scheme.</p>
                     </div>
+                    <!-- Benefit Card 3 -->
                     <div class="bg-white p-8 rounded-xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:translate-y-[-5px]">
                         <i class="fa-solid fa-tree text-4xl text-solar-500 mb-4"></i>
                         <h3 class="text-xl font-heading font-semibold text-navy-900 mb-3">Environmental Impact</h3>
@@ -172,22 +195,30 @@
             </div>
         </section>
 
-        <!-- Subsidy Section --><section id="subsidy" class="py-16 md:py-24 bg-navy-900 text-white">
+        <!-- Subsidy Section -->
+        <section id="subsidy" class="py-16 md:py-24 bg-navy-900 text-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl md:text-4xl font-heading font-bold text-center mb-12">PM Surya Ghar: <span class="text-solar-400">Muft Bijli Yojana</span></h2>
                 <div class="flex flex-wrap justify-center items-center gap-12">
                     
+                    <!-- Visual Subsidy Breakdown -->
                     <div class="w-full lg:w-1/2 p-6 bg-white/10 rounded-xl shadow-2xl border border-solar-500/50">
                         <h3 class="text-2xl font-heading font-bold mb-6 text-center text-solar-400">Subsidy Breakdown</h3>
                         <div class="space-y-4">
+                            
+                            <!-- 1-2 kW Slab -->
                             <div class="flex justify-between items-center bg-white/5 p-4 rounded-lg">
                                 <span class="text-lg font-medium">For first 2 kW Capacity</span>
                                 <span class="text-2xl font-bold text-solar-400">₹30,000 / kW</span>
                             </div>
+                            
+                            <!-- Additional kW Slab -->
                             <div class="flex justify-between items-center bg-white/5 p-4 rounded-lg">
                                 <span class="text-lg font-medium">For additional capacity (up to 3 kW)</span>
                                 <span class="text-2xl font-bold text-solar-400">₹18,000 / kW</span>
                             </div>
+                            
+                            <!-- Max Cap -->
                             <div class="flex justify-between items-center p-4 rounded-lg bg-green-900/50 border-l-4 border-green-400">
                                 <span class="text-xl font-bold text-green-400">Maximum Cap</span>
                                 <span class="text-3xl font-extrabold text-green-400">₹78,000</span>
@@ -196,6 +227,7 @@
                         <p class="text-sm text-center text-white/70 mt-4">Calculations based on official PM Surya Ghar scheme guidelines.</p>
                     </div>
 
+                    <!-- Scheme Info -->
                     <div class="w-full lg:w-1/3 space-y-4 text-left">
                         <div class="flex items-start">
                             <i class="fa-solid fa-circle-check text-solar-500 text-2xl mt-1 mr-3"></i>
@@ -217,15 +249,18 @@
             </div>
         </section>
 
-        <!-- Advanced Solar Calculator Section --><section id="calculator" class="py-16 md:py-24 bg-navy-50">
+        <!-- Advanced Solar Calculator Section -->
+        <section id="calculator" class="py-16 md:py-24 bg-navy-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl md:text-4xl font-heading font-bold text-center text-navy-900 mb-12">Your Personalized Solar Calculator</h2>
                 
                 <div class="bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col lg:flex-row">
-                    <!-- Input Panel --><div class="lg:w-1/2 p-8 md:p-12 space-y-6">
+                    <!-- Input Panel -->
+                    <div class="lg:w-1/2 p-8 md:p-12 space-y-6">
                         <h3 class="text-2xl font-heading font-bold text-navy-900 mb-4">Step 1: Tell Us About Your Home</h3>
                         
-                        <!-- Location Input --><div>
+                        <!-- Location Input -->
+                        <div>
                             <label for="location" class="block text-sm font-medium text-gray-700 mb-1">City / Location</label>
                             <div class="flex gap-2">
                                 <input type="text" id="location" value="Bangalore" oninput="calculatePreviews()" class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-solar-500 focus:border-solar-500" placeholder="e.g., Mumbai, Delhi">
@@ -236,7 +271,8 @@
                             <p id="location-factor" class="text-xs text-green-600 mt-1 hidden">Radiation Factor: 4.5 kWh/m²/day (Simulated)</p>
                         </div>
 
-                        <!-- Connection Type --><div>
+                        <!-- Connection Type -->
+                        <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Electricity Connection Type</label>
                             <div class="flex gap-4">
                                 <label class="flex items-center space-x-2 p-3 border border-gray-300 rounded-lg cursor-pointer hover:border-solar-500 transition duration-150">
@@ -250,36 +286,42 @@
                             </div>
                         </div>
 
-                        <!-- Monthly Bill Input --><div>
+                        <!-- Monthly Bill Input -->
+                        <div>
                             <label for="monthlyBill" class="block text-sm font-medium text-gray-700 mb-1">Avg. Monthly Electricity Bill (₹)</label>
                             <input type="number" id="monthlyBill" value="3500" min="0" oninput="calculatePreviews()" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-solar-500 focus:border-solar-500" placeholder="e.g., 2500">
                             <p id="consumption-info" class="text-xs text-gray-500 mt-1">Estimated monthly consumption: 350 Units</p>
                         </div>
                     </div>
                     
-                    <!-- Output Panel (Quick Estimates) --><div class="lg:w-1/2 p-8 md:p-12 bg-navy-900 text-white flex flex-col justify-between">
+                    <!-- Output Panel (Quick Estimates) -->
+                    <div class="lg:w-1/2 p-8 md:p-12 bg-navy-900 text-white flex flex-col justify-between">
                         <div>
                             <h3 class="text-2xl font-heading font-bold text-solar-400 mb-6">Step 2: Quick Solar Estimate</h3>
                             
                             <div class="space-y-6">
-                                <!-- Recommended System Size --><div class="bg-white/10 p-4 rounded-xl border-l-4 border-solar-500">
+                                <!-- Recommended System Size -->
+                                <div class="bg-white/10 p-4 rounded-xl border-l-4 border-solar-500">
                                     <p class="text-sm text-white/70">Recommended System Size</p>
                                     <p class="text-3xl font-extrabold text-solar-400"><span id="recommendedSize">3</span> kW</p>
                                 </div>
                                 
-                                <!-- Estimated Subsidy --><div class="bg-white/10 p-4 rounded-xl border-l-4 border-solar-500">
+                                <!-- Estimated Subsidy -->
+                                <div class="bg-white/10 p-4 rounded-xl border-l-4 border-solar-500">
                                     <p class="text-sm text-white/70">Estimated Govt. Subsidy (PM Surya Ghar)</p>
                                     <p class="text-3xl font-extrabold text-solar-400">₹<span id="estimatedSubsidy">78,000</span></p>
                                 </div>
                                 
-                                <!-- Net Investment Cost --><div class="bg-white/10 p-4 rounded-xl border-l-4 border-solar-500">
+                                <!-- Net Investment Cost -->
+                                <div class="bg-white/10 p-4 rounded-xl border-l-4 border-solar-500">
                                     <p class="text-sm text-white/70">Estimated Net Investment (After Subsidy)</p>
                                     <p class="text-3xl font-extrabold text-solar-400">₹<span id="netInvestment">1,17,000</span></p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- CTA to Report --><button onclick="openModal()" class="w-full bg-solar-500 text-white py-4 mt-8 rounded-xl font-bold text-lg shadow-xl hover:bg-solar-700 transition duration-300 transform hover:scale-[1.01]">
+                        <!-- CTA to Report -->
+                        <button onclick="openModal()" class="w-full bg-solar-500 text-white py-4 mt-8 rounded-xl font-bold text-lg shadow-xl hover:bg-solar-700 transition duration-300 transform hover:scale-[1.01]">
                             Generate Detailed Report
                             <i class="fa-solid fa-arrow-right ml-2"></i>
                         </button>
@@ -288,40 +330,66 @@
             </div>
         </section>
 
-        <!-- FAQ Section (Searchable with Fallback) --><section id="faq" class="py-16 md:py-24 bg-white">
+        <!-- Testimonials Section -->
+        <section id="stories" class="py-16 md:py-24 bg-navy-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-center text-navy-900 mb-12">Success Stories from Solarastra Homes</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Story 1 -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-solar-500">
+                        <div class="flex text-solar-400 mb-3">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                        </div>
+                        <p class="text-gray-700 italic mb-4">"Installation was quick and seamless. My bill is now ₹0, and the entire subsidy process was handled by the Solarastra team. Truly professional!"</p>
+                        <p class="font-semibold text-navy-900">- Rajesh K. (<span class="text-sm text-gray-500">Pune, MH</span>)</p>
+                    </div>
+                    <!-- Story 2 -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-solar-500">
+                        <div class="flex text-solar-400 mb-3">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-700 italic mb-4">"The detailed calculator convinced me. I saved ₹50,000 on my investment, and the system performs exactly as promised. Highly recommend."</p>
+                        <p class="font-semibold text-navy-900">- Priya S. (<span class="text-sm text-gray-500">Chennai, TN</span>)</p>
+                    </div>
+                    <!-- Story 3 -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-solar-500">
+                        <div class="flex text-solar-400 mb-3">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                        </div>
+                        <p class="text-gray-700 italic mb-4">"Excellent customer support. They clarified all my queries about net metering and loan options. A fantastic investment for my home."</p>
+                        <p class="font-semibold text-navy-900">- Mohammed A. (<span class="text-sm text-gray-500">Hyderabad, TS</span>)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section (New Searchable Version) -->
+        <section id="faq" class="py-16 md:py-24 bg-white">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl md:text-4xl font-heading font-bold text-center text-navy-900 mb-6">Detailed & Searchable FAQs</h2>
                 <p class="text-center text-lg text-gray-600 mb-8">Official information on the PM Surya Ghar scheme and solar installation.</p>
                 
-                <!-- Search Bar --><div class="mb-8">
+                <!-- Search Bar -->
+                <div class="mb-8">
                     <input type="text" id="faqSearch" oninput="filterFaqs()" class="w-full p-4 border-2 border-solar-100 rounded-xl shadow-lg focus:border-solar-500 focus:ring-solar-500 transition duration-150" placeholder="Search questions about subsidy, cost, or process...">
                 </div>
 
-                <!-- FAQ List Container --><div id="faqList" class="space-y-4">
+                <!-- FAQ List Container -->
+                <div id="faqList" class="space-y-4">
+                    <!-- FAQs will be dynamically inserted here by JavaScript -->
                     <div class="text-center text-gray-500 py-12" id="faqLoading">Loading detailed FAQs...</div>
                 </div>
                 
-                <!-- Fallback UI (Hidden by Default) --><div id="noResults" class="hidden text-center py-10 bg-navy-50 rounded-xl border border-navy-100 mt-6">
-                    <i class="fa-solid fa-robot text-4xl text-solar-500 mb-4"></i>
-                    <h3 class="text-xl font-bold text-navy-900 mb-2">Can't find what you're looking for?</h3>
-                    <p class="text-gray-600 mb-6">Our database might not have your specific question yet.</p>
-                    
-                    <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-                        <button onclick="searchGoogle()" class="flex items-center px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-200 shadow-sm">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" class="w-5 h-5 mr-2" alt="Google">
-                            Ask Google AI
-                        </button>
-                        <span class="text-gray-400">or</span>
-                        <button onclick="contactUs()" class="flex items-center px-6 py-3 bg-solar-500 text-white rounded-lg hover:bg-solar-700 transition duration-200 shadow-md">
-                            <i class="fa-solid fa-envelope mr-2"></i> Contact Support
-                        </button>
-                    </div>
+                <div id="noResults" class="hidden text-center text-red-500 py-8">
+                    <i class="fa-solid fa-circle-exclamation mr-2"></i> No matching FAQs found. Try a different keyword.
                 </div>
 
             </div>
         </section>
 
-        <!-- Call to Action Footer Section --><section class="bg-solar-500 py-12 md:py-16 text-center">
+        <!-- Call to Action Footer Section -->
+        <section class="bg-solar-500 py-12 md:py-16 text-center">
             <div class="max-w-4xl mx-auto px-4">
                 <h2 class="text-3xl md:text-4xl font-heading font-bold text-white mb-4">Ready to Switch to Solar?</h2>
                 <p class="text-xl text-white/90 mb-8">Calculate your savings and get a personalized, zero-obligation quote today.</p>
@@ -332,23 +400,30 @@
         </section>
     </main>
 
-    <!-- Detailed Report Modal (Hidden by Default) --><div id="reportModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm overflow-y-auto">
+    <!-- Detailed Report Modal (Hidden by Default) - Keep unchanged -->
+    <div id="reportModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm overflow-y-auto">
         <div class="relative max-w-5xl mx-auto my-8 bg-white rounded-xl shadow-2xl overflow-hidden">
-            <!-- Modal Header --><div class="bg-navy-900 p-6 flex justify-between items-center">
+            <!-- Modal Header -->
+            <div class="bg-navy-900 p-6 flex justify-between items-center">
                 <h3 class="text-2xl font-heading font-bold text-solar-400">Solar Blueprint for Your Home</h3>
                 <button onclick="closeModal()" class="text-white hover:text-solar-500 transition duration-150 text-2xl">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
             
-            <!-- Modal Body --><div class="p-6 md:p-8">
+            <!-- Modal Body Tabs -->
+            <div class="p-6 md:p-8">
+                <!-- Tab Navigation -->
                 <div class="flex border-b border-navy-100 mb-6">
                     <button class="tab-button active px-4 py-2 font-semibold text-lg border-b-2 border-transparent transition duration-150" onclick="changeTab('overview')">Overview</button>
                     <button class="tab-button px-4 py-2 font-semibold text-lg border-b-2 border-transparent transition duration-150" onclick="changeTab('financials')">Financials & Loan</button>
                     <button class="tab-button px-4 py-2 font-semibold text-lg border-b-2 border-transparent transition duration-150" onclick="changeTab('generation')">Generation Analysis</button>
+                    <button class="tab-button px-4 py-2 font-semibold text-lg border-b-2 border-transparent transition duration-150" onclick="changeTab('bank')">Bank Offers</button>
                 </div>
 
+                <!-- Tab Content: Overview -->
                 <div id="tab-overview" class="tab-content space-y-6">
+                    <h4 class="text-xl font-heading font-bold text-navy-900 mb-4">System Recommendations</h4>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                         <div class="bg-navy-50 p-6 rounded-lg shadow-inner">
                             <i class="fa-solid fa-bolt text-4xl text-solar-500 mb-3"></i>
@@ -366,9 +441,25 @@
                             <p class="text-2xl font-extrabold text-navy-900"><span id="reportAnnualGen">4,500</span> Units</p>
                         </div>
                     </div>
+                    
+                    <h4 class="text-xl font-heading font-bold text-navy-900 mt-8 mb-4">Environmental Impact</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+                         <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+                            <i class="fa-solid fa-cloud-sun text-4xl text-green-600 mb-3"></i>
+                            <p class="text-sm text-gray-600">Lifetime CO₂ Offset</p>
+                            <p class="text-2xl font-extrabold text-green-600"><span id="reportCo2">105</span> Tonnes</p>
+                        </div>
+                        <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+                            <i class="fa-solid fa-leaf text-4xl text-green-600 mb-3"></i>
+                            <p class="text-sm text-gray-600">Equivalent Trees Planted</p>
+                            <p class="text-2xl font-extrabold text-green-600"><span id="reportTrees">1,200</span> Trees</p>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Tab Content: Financials -->
                 <div id="tab-financials" class="tab-content hidden space-y-8">
+                    <h4 class="text-xl font-heading font-bold text-navy-900 mb-4">Investment Summary</h4>
                     <div class="bg-navy-900 text-white p-6 rounded-xl shadow-xl">
                         <table class="w-full text-left">
                             <tbody>
@@ -394,6 +485,7 @@
                         </div>
                     </div>
 
+                    <h4 class="text-xl font-heading font-bold text-navy-900 mt-8 mb-4">Loan and EMI Calculator</h4>
                     <div class="bg-navy-50 p-6 rounded-xl shadow-inner">
                         <label for="loanTenure" class="block text-lg font-medium text-navy-900 mb-3">Select Loan Tenure: <span id="tenureVal" class="text-solar-500 font-bold">5</span> Years</label>
                         <input type="range" id="loanTenure" min="1" max="10" value="5" oninput="calculateEMI()" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg">
@@ -411,12 +503,384 @@
                     </div>
                 </div>
 
+                <!-- Tab Content: Generation -->
                 <div id="tab-generation" class="tab-content hidden space-y-6">
+                    <h4 class="text-xl font-heading font-bold text-navy-900 mb-4">Monthly Generation vs. Consumption</h4>
                     <div class="bg-white p-6 rounded-xl shadow-lg border border-navy-100">
                         <div class="flex justify-between text-sm mb-4">
                             <span class="flex items-center"><span class="h-3 w-3 bg-solar-500 rounded-full mr-2"></span> Solar Generation</span>
                             <span class="flex items-center"><span class="h-3 w-3 bg-navy-900 rounded-full mr-2"></span> Household Consumption</span>
                         </div>
                         <div id="graphContainer" class="flex justify-around items-end h-64 border-l border-b border-gray-300 py-2">
-                            <!-- Bars inserted by JS --></div>
-                        <div id="monthLabels" class="flex justify-
+                            <!-- Bars will be inserted by drawGraph() -->
+                        </div>
+                        <div id="monthLabels" class="flex justify-around text-xs mt-2 text-gray-600">
+                            <span>J</span><span>F</span><span>M</span><span>A</span><span>M</span><span>J</span><span>J</span><span>A</span><span>S</span><span>O</span><span>N</span><span>D</span>
+                        </div>
+                        <p class="text-sm text-center text-gray-500 mt-4">The graph shows how your system generates excess power during peak months (Net Metering benefit).</p>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Bank Offers -->
+                <div id="tab-bank" class="tab-content hidden space-y-6">
+                    <h4 class="text-xl font-heading font-bold text-navy-900 mb-4">Concessional Loan Offers (PSU Banks)</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Bank 1 -->
+                        <div class="bg-navy-50 p-6 rounded-xl border-t-4 border-green-500 shadow-md text-center">
+                            <i class="fa-solid fa-building-columns text-4xl text-navy-900 mb-3"></i>
+                            <p class="text-xl font-heading font-semibold text-navy-900">State Bank of India</p>
+                            <p class="text-3xl font-extrabold text-green-600 mt-2">7.0% <span class="text-base font-normal">p.a.</span></p>
+                            <p class="text-sm text-gray-600 mt-1">Special Solar Loan Scheme</p>
+                        </div>
+                        <!-- Bank 2 -->
+                        <div class="bg-navy-50 p-6 rounded-xl border-t-4 border-green-500 shadow-md text-center">
+                            <i class="fa-solid fa-building-columns text-4xl text-navy-900 mb-3"></i>
+                            <p class="text-xl font-heading font-semibold text-navy-900">Punjab National Bank</p>
+                            <p class="text-3xl font-extrabold text-green-600 mt-2">7.25% <span class="text-base font-normal">p.a.</span></p>
+                            <p class="text-sm text-gray-600 mt-1">Concessional Interest</p>
+                        </div>
+                        <!-- Bank 3 -->
+                        <div class="bg-navy-50 p-6 rounded-xl border-t-4 border-green-500 shadow-md text-center">
+                            <i class="fa-solid fa-building-columns text-4xl text-navy-900 mb-3"></i>
+                            <p class="text-xl font-heading font-semibold text-navy-900">Canara Bank</p>
+                            <p class="text-3xl font-extrabold text-green-600 mt-2">7.15% <span class="text-base font-normal">p.a.</span></p>
+                            <p class="text-sm text-gray-600 mt-1">Dedicated Rooftop Scheme</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-6">*Interest rates are indicative and subject to final bank approval.</p>
+                </div>
+
+                <div class="mt-8 pt-4 border-t text-center">
+                    <button onclick="closeModal()" class="bg-navy-900 text-white py-3 px-8 rounded-full font-bold shadow-lg hover:bg-navy-700 transition duration-300">
+                        Close Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- DATA for Searchable FAQ (JSON array) ---
+        const FAQS_DATA = [
+            {
+                question: "What is the maximum subsidy available under the PM Surya Ghar Muft Bijli Yojana?",
+                answer: "The maximum subsidy available is **₹78,000** for a 3 kW system. The subsidy structure is: ₹30,000 per kW for the first 2 kW, and ₹18,000 per kW for the additional 1 kW.",
+                keywords: "subsidy maximum cap amount finance"
+            },
+            {
+                question: "What is the official step-by-step process for availing the PM Surya Ghar subsidy?",
+                answer: "The official process involves four main steps: 1. **Registration:** Register on the national portal with your State, DISCOM, and Consumer Account Number. 2. **Application & Approval:** Submit your application with required documents and receive Technical Feasibility (TFA) approval from the DISCOM. 3. **Installation & Net Metering:** Get the solar plant installed by a registered vendor and apply for net metering. 4. **Inspection & Subsidy:** After DISCOM inspection, the commissioning report is generated, and the approved subsidy amount is released directly to your bank account.",
+                keywords: "process steps apply registration discom application approval inspection net metering"
+            },
+            {
+                question: "What are the eligibility criteria for the residential solar scheme?",
+                answer: "To be eligible, the consumer must have a valid electricity connection for a residential dwelling. The installation must be located on the roof of the dwelling house. The system size should ideally match the consumer's average electricity consumption and is subsidized up to 3 kW.",
+                keywords: "eligibility criteria who can apply residential dwelling connection"
+            },
+            {
+                question: "What is the estimated cost of a residential solar system per kW in India?",
+                answer: "The typical total cost of installing a residential solar panel system in India ranges from **₹50,000 to ₹75,000 per kW** (before deducting the government subsidy). The final cost depends on various technical choices.",
+                keywords: "cost price per kw installation expenses estimate"
+            },
+            {
+                question: "How much roof area is required for solar panel installation?",
+                answer: "Generally, a 1 kW system requires approximately **100 square feet (sq. ft.)** of shadow-free, usable rooftop area. Therefore, a standard 3 kW system would require around 300 sq. ft. You need an unshaded, south-facing (in India) area for best results.",
+                keywords: "area roof space required size sq ft"
+            },
+            {
+                question: "What factors influence the total installation cost of a solar system?",
+                answer: "Key factors include the total system size, the type of solar panels used (e.g., Mono PERC vs. Half-cut panels), the inverter technology (string inverter vs. micro-inverters), and the type of mounting structure (e.g., elevated structures for better shadow clearance).",
+                keywords: "factors cost change technical components inverter panels"
+            },
+            {
+                question: "What is the expected service life and required maintenance for a solar system?",
+                answer: "Solar systems are highly durable and have a service life of **25 years or more**. Maintenance is minimal, primarily involving regular cleaning of the solar panels and occasional checks on the inverter and wiring connections. This low maintenance makes solar a great long-term investment.",
+                keywords: "life maintenance durability cleaning warranty"
+            },
+            {
+                question: "Are low-interest loans available for solar installation under the scheme?",
+                answer: "Yes, the PM Surya Ghar scheme promotes the availability of **concessional low-interest loans** through major Public Sector Undertaking (PSU) banks to help beneficiaries cover the net investment cost after the subsidy.",
+                keywords: "loan emi bank finance psu interest"
+            }
+        ];
+        
+        // --- JavaScript Logic for Interactive Components ---
+
+        // 1. Mobile Menu Toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // 2. Accordion Logic (Modified to handle dynamic list)
+        function toggleAccordion(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            const isOpen = content.classList.contains('open');
+
+            // Close all open accordions first (if not the one clicked)
+            document.querySelectorAll('#faqList .accordion-content').forEach(item => {
+                if (item !== content) {
+                    item.classList.remove('open');
+                    item.previousElementSibling.querySelector('i').classList.remove('rotate-180');
+                }
+            });
+
+            // Toggle the clicked one
+            if (!isOpen) {
+                content.classList.add('open');
+                icon.classList.add('rotate-180');
+            } else {
+                content.classList.remove('open');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        // 3. Searchable FAQ Logic
+        function renderFaqs(faqs) {
+            const faqList = document.getElementById('faqList');
+            const noResults = document.getElementById('noResults');
+            faqList.innerHTML = '';
+            
+            if (faqs.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            }
+            noResults.classList.add('hidden');
+
+            faqs.forEach((faq, index) => {
+                const faqItem = document.createElement('div');
+                faqItem.className = 'border border-navy-100 rounded-xl overflow-hidden shadow-md';
+                
+                // Button
+                const button = document.createElement('button');
+                button.className = 'flex justify-between items-center w-full p-5 text-left bg-navy-50 hover:bg-navy-100 transition duration-150';
+                button.setAttribute('onclick', 'toggleAccordion(this)');
+                
+                const questionSpan = document.createElement('span');
+                questionSpan.className = 'text-lg font-semibold text-navy-900';
+                questionSpan.textContent = faq.question;
+                
+                const icon = document.createElement('i');
+                icon.className = 'fa-solid fa-chevron-down text-solar-500 transition-transform duration-300';
+                
+                button.appendChild(questionSpan);
+                button.appendChild(icon);
+                
+                // Content
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'accordion-content';
+                
+                const answerParagraph = document.createElement('p');
+                answerParagraph.className = 'p-5 text-gray-700';
+                answerParagraph.innerHTML = faq.answer; // Use innerHTML to render bold markdown
+                
+                contentDiv.appendChild(answerParagraph);
+                
+                faqItem.appendChild(button);
+                faqItem.appendChild(contentDiv);
+                faqList.appendChild(faqItem);
+            });
+        }
+
+        function filterFaqs() {
+            const searchTerm = document.getElementById('faqSearch').value.toLowerCase();
+            
+            if (!searchTerm) {
+                renderFaqs(FAQS_DATA);
+                return;
+            }
+
+            const filteredFaqs = FAQS_DATA.filter(faq => 
+                faq.question.toLowerCase().includes(searchTerm) || 
+                faq.answer.toLowerCase().includes(searchTerm) ||
+                faq.keywords.toLowerCase().includes(searchTerm)
+            );
+            
+            renderFaqs(filteredFaqs);
+        }
+        
+        // --- Calculator & Report Logic (Unchanged) ---
+
+        const subsidy_rate_2kw = 30000;
+        const subsidy_rate_max = 78000;
+        const subsidy_rate_additional = 18000;
+        const cost_per_kw = 65000; // Estimated project cost per kW (before subsidy)
+
+        function simulateLocationDetection() {
+            const info = document.getElementById('location-factor');
+            info.textContent = 'Detecting...';
+            info.classList.remove('hidden');
+
+            setTimeout(() => {
+                const radiation = (4.0 + Math.random() * 1.0).toFixed(1); // 4.0 to 5.0
+                info.textContent = `Radiation Factor: ${radiation} kWh/m²/day (Simulated)`;
+                calculatePreviews(); // Recalculate after "detection"
+            }, 1000);
+        }
+
+        function calculateSystemSize(monthlyBill, billRate = 10) {
+            const monthlyConsumption = (monthlyBill / billRate);
+            document.getElementById('consumption-info').textContent = `Estimated monthly consumption: ${monthlyConsumption.toFixed(0)} Units`;
+            
+            const avgDailyConsumption = monthlyConsumption / 30; 
+            const avgDailyRadiation = 4.5; 
+            
+            let systemSize = (avgDailyConsumption / avgDailyRadiation);
+            
+            systemSize = Math.min(10, Math.ceil(systemSize * 2) / 2);
+
+            return Math.max(1, systemSize); 
+        }
+
+        function calculateSubsidy(systemSize) {
+            let subsidy = 0;
+            if (systemSize <= 2) {
+                subsidy = systemSize * subsidy_rate_2kw;
+            } else {
+                subsidy = 2 * subsidy_rate_2kw;
+                // Subsidy for additional 1kW capacity only, up to 3kW system.
+                const additionalKW = Math.min(1, systemSize - 2); 
+                subsidy += additionalKW * subsidy_rate_additional;
+            }
+
+            return Math.min(subsidy, subsidy_rate_max);
+        }
+
+        function calculatePreviews() {
+            const monthlyBill = parseFloat(document.getElementById('monthlyBill').value) || 0;
+            if (monthlyBill <= 0) {
+                document.getElementById('recommendedSize').innerText = '0.0';
+                document.getElementById('estimatedSubsidy').innerText = '0';
+                document.getElementById('netInvestment').innerText = '0';
+                return;
+            }
+
+            const systemSize = calculateSystemSize(monthlyBill);
+            const subsidy = calculateSubsidy(systemSize);
+            const totalCost = systemSize * cost_per_kw;
+            const netInvestment = totalCost - subsidy;
+
+            // Update Quick Estimate Panel
+            document.getElementById('recommendedSize').innerText = systemSize.toFixed(1);
+            document.getElementById('estimatedSubsidy').innerText = subsidy.toLocaleString('en-IN');
+            document.getElementById('netInvestment').innerText = netInvestment.toLocaleString('en-IN');
+
+            // Update Report Data
+            document.getElementById('reportSize').innerText = systemSize.toFixed(1);
+            document.getElementById('reportArea').innerText = (systemSize * 100).toFixed(0);
+            document.getElementById('reportAnnualGen').innerText = (systemSize * 1500).toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('reportCo2').innerText = (systemSize * 35).toFixed(0);
+            document.getElementById('reportTrees').innerText = (systemSize * 400).toLocaleString('en-IN', {maximumFractionDigits: 0});
+
+            document.getElementById('costTotal').innerText = totalCost.toLocaleString('en-IN');
+            document.getElementById('costSubsidy').innerText = subsidy.toLocaleString('en-IN');
+            document.getElementById('costNet').innerText = netInvestment.toLocaleString('en-IN');
+
+            // Update Subsidy Bar
+            const subsidyRatio = (subsidy / totalCost) * 100;
+            document.getElementById('subsidyBar').style.width = `${Math.min(100, subsidyRatio)}%`;
+            
+            calculateEMI(); 
+        }
+
+        function calculateEMI() {
+            const netInvestmentText = document.getElementById('costNet').innerText;
+            const netInvestment = parseFloat(netInvestmentText.replace(/,/g, ''));
+            const tenure = parseInt(document.getElementById('loanTenure').value);
+            const monthlyBill = parseFloat(document.getElementById('monthlyBill').value);
+            const rate = 0.075; 
+
+            document.getElementById('tenureVal').innerText = tenure;
+
+            if (netInvestment <= 0 || tenure <= 0) {
+                document.getElementById('emiVal').innerText = '0';
+                document.getElementById('savingsVal').innerText = (monthlyBill).toLocaleString('en-IN', {maximumFractionDigits: 0});
+                return;
+            }
+
+            // EMI Calculation (Simplified Annuity Formula)
+            const monthlyRate = rate / 12;
+            const numPayments = tenure * 12;
+
+            let emi = 0;
+            if (monthlyRate > 0) {
+                emi = netInvestment * monthlyRate * (Math.pow(1 + monthlyRate, numPayments) / (Math.pow(1 + monthlyRate, numPayments) - 1));
+            } else {
+                emi = netInvestment / numPayments;
+            }
+            
+            const savings = monthlyBill - emi;
+
+            document.getElementById('emiVal').innerText = emi.toFixed(0).toLocaleString('en-IN');
+            document.getElementById('savingsVal').innerText = savings.toFixed(0).toLocaleString('en-IN');
+        }
+
+        // 4. Graph Drawing Logic (Mock Data)
+        function drawGraph() {
+            const container = document.getElementById('graphContainer');
+            container.innerHTML = '';
+            
+            const months = ['J','F','M','A','M','J','J','A','S','O','N','D'];
+            
+            months.forEach((m, i) => {
+                let solarH = 40 + (Math.sin((i/11)*Math.PI) * 50); 
+                let usageH = 30 + (Math.sin(((i+2)/13)*Math.PI) * 40); 
+                
+                if(i === 6 || i === 7) solarH *= 0.6; 
+
+                const barGroup = document.createElement('div');
+                barGroup.className = 'h-full flex gap-1 items-end w-4 md:w-8';
+                
+                const barSolar = document.createElement('div');
+                barSolar.className = 'w-1/2 bg-solar-500 rounded-t-sm';
+                barSolar.style.height = solarH + '%';
+                
+                const barUsage = document.createElement('div');
+                barUsage.className = 'w-1/2 bg-navy-900 rounded-t-sm';
+                barUsage.style.height = usageH + '%';
+
+                barGroup.appendChild(barSolar);
+                barGroup.appendChild(barUsage);
+                container.appendChild(barGroup);
+            });
+        }
+
+        // 5. Modal and Tab Logic
+        function openModal() {
+            document.getElementById('reportModal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            drawGraph(); 
+        }
+
+        function closeModal() {
+            document.getElementById('reportModal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function changeTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.querySelector(`.tab-button[onclick*='${tabId}']`).classList.add('active');
+        }
+
+
+        // Initial setup and calculation on load
+        window.onload = function() {
+            calculatePreviews();
+            renderFaqs(FAQS_DATA); // Render the FAQs initially
+        };
+
+        // Initialize the EMI calculation
+        document.getElementById('loanTenure').oninput = calculateEMI;
+
+    </script>
+</body>
+</html>
