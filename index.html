@@ -861,7 +861,7 @@ let faqData = [];
 
 async function loadFaqs() {
     try {
-        const res = await fetch('https://github.com/njain2380/solarastra/blob/main/faqs.json');
+        const res = await fetch('https://njain2380.github.io/solarastra/faqs.json');
         faqData = await res.json();
         renderFaqs(faqData);
     } catch (error) {
